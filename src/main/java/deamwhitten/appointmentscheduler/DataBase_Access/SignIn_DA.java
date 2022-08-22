@@ -1,4 +1,4 @@
-package deamwhitten.appointmentscheduler.Utils.DataBase_Access;
+package deamwhitten.appointmentscheduler.DataBase_Access;
 import deamwhitten.appointmentscheduler.Utils.JDBC;
 
 import java.sql.PreparedStatement;

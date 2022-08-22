@@ -1,6 +1,7 @@
 package deamwhitten.appointmentscheduler.Controller;
 
-import deamwhitten.appointmentscheduler.Utils.DataBase_Access.SignIn_DA;
+import deamwhitten.appointmentscheduler.DataBase_Access.SignIn_DA;
+import deamwhitten.appointmentscheduler.Utils.ErrorMSG_Handler;
 import deamwhitten.appointmentscheduler.Utils.Window_Handler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,7 +28,7 @@ public class SignIn_Controller implements Initializable {
     @FXML
     private TextField password_input;
     @FXML
-    private Label error_label;
+    public static Label error_label;
     @FXML
     private Button signIn_btn;
     @FXML
@@ -41,21 +42,14 @@ public class SignIn_Controller implements Initializable {
         if(!userID.isEmpty() && !password.isEmpty()){
             Boolean isValid = SignIn_DA.validate(userID, password);
             if(isValid){
-                Window_Handler.loadWindow("MainWindow_View_1","Appointment Scheduler", event);
+                Window_Handler.loadWindow("MainWindow_View","Appointment Scheduler", event);
             }else {
-                showLoginError("Incorrect user name or password.");
+                ErrorMSG_Handler.showLoginError("Incorrect user name or password.");
             }
         }else {
-            showLoginError("Please input user name and password to login.");
+            ErrorMSG_Handler.showLoginError("Please input user name and password to login.");
         }
     }
-
-    private void showLoginError(String msg) {
-        error_label.setText(msg);
-        error_label.setOpacity(1);
-    }
-
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
