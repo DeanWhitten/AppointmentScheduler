@@ -3,7 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Tab?>
@@ -37,13 +37,13 @@
                      <children>
                         <GridPane prefHeight="145.0" prefWidth="1638.0" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                            <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="536.0" minWidth="10.0" prefWidth="536.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="512.0" minWidth="0.0" prefWidth="222.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="536.0" minWidth="10.0" prefWidth="141.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="527.0" minWidth="10.0" prefWidth="160.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="707.0" minWidth="10.0" prefWidth="180.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="374.4444783528646" minWidth="10.0" prefWidth="159.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="435.0" minWidth="10.0" prefWidth="235.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="536.0" minWidth="10.0" prefWidth="489.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="512.0" minWidth="0.0" prefWidth="232.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="536.0" minWidth="10.0" prefWidth="94.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="527.0" minWidth="10.0" prefWidth="152.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="707.0" minWidth="10.0" prefWidth="221.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="374.4444783528646" minWidth="10.0" prefWidth="123.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="435.0" minWidth="10.0" prefWidth="241.0" />
                            </columnConstraints>
                            <rowConstraints>
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -92,14 +92,6 @@
                                     <Insets top="10.0" />
                                  </padding>
                               </Label>
-                              <ChoiceBox fx:id="customerFilter_selection" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="235.0" GridPane.columnIndex="6" GridPane.valignment="TOP">
-                                 <padding>
-                                    <Insets top="10.0" />
-                                 </padding>
-                                 <GridPane.margin>
-                                    <Insets top="10.0" />
-                                 </GridPane.margin>
-                              </ChoiceBox>
                               <Label fx:id="user_msg_label" alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="27.0" prefWidth="488.0" text="Welcome, user!" GridPane.valignment="TOP">
                                  <GridPane.margin>
                                     <Insets top="10.0" />
@@ -113,6 +105,11 @@
                                     <Insets bottom="10.0" />
                                  </padding>
                               </Label>
+                              <ComboBox fx:id="filterByCustomer_selection" onAction="#onFilterByCustomerSelected" prefHeight="25.0" prefWidth="261.0" GridPane.columnIndex="6" GridPane.valignment="TOP">
+                                 <GridPane.margin>
+                                    <Insets top="10.0" />
+                                 </GridPane.margin>
+                              </ComboBox>
                            </children>
                         </GridPane>
                         <TableView fx:id="appointments_table" prefHeight="469.0" prefWidth="1638.0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
@@ -148,17 +145,17 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Button fx:id="scheduleApp_btn" mnemonicParsing="false" text="Schedule Appointment">
+                                    <Button fx:id="scheduleApp_btn" mnemonicParsing="false" onAction="#onScheduleAppointmentClick" text="Schedule Appointment">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
                                     </Button>
-                                    <Button fx:id="updateApp_btn" mnemonicParsing="false" text="Update Appointment Information" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                                    <Button fx:id="updateApp_btn" mnemonicParsing="false" onAction="#onUpdateAppointmentClick" text="Update Appointment Information" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
                                     </Button>
-                                    <Button fx:id="cancelApp_btn" mnemonicParsing="false" text="Cancel Appointment" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                                    <Button fx:id="cancelApp_btn" mnemonicParsing="false" onAction="#onCancelAppointmentClick" text="Cancel Appointment" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -223,17 +220,17 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Button fx:id="addCustomer_btn" mnemonicParsing="false" text="Add New Customer">
+                                    <Button fx:id="addCustomer_btn" mnemonicParsing="false" onAction="#onAddNewCustomerClick" text="Add New Customer">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
                                     </Button>
-                                    <Button fx:id="updateCustomer_btn" mnemonicParsing="false" text="Update Customer Info" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                                    <Button fx:id="updateCustomer_btn" mnemonicParsing="false" onAction="#onUpdateCustomerClick" text="Update Customer Info" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
                                     </Button>
-                                    <Button fx:id="deleteCustomer_col" mnemonicParsing="false" text="Delete Customer" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                                    <Button fx:id="deleteCustomer_col" mnemonicParsing="false" onAction="#onDeleteCustomerClick" text="Delete Customer" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                                        <font>
                                           <Font size="18.0" />
                                        </font>

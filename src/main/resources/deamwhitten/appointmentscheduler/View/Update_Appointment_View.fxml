@@ -12,8 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="deamwhitten.appointmentscheduler.Controller.Add_Appointment_Controller">
+<AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="deamwhitten.appointmentscheduler.Controller.Update_Appointment_Controller">
    <children>
       <GridPane layoutX="32.0" layoutY="64.0" prefHeight="271.0" prefWidth="737.0">
         <columnConstraints>
@@ -42,8 +41,8 @@
             <Label text="Date:" GridPane.columnIndex="3" GridPane.rowIndex="2" />
             <Label text="Start Time:" GridPane.columnIndex="3" GridPane.rowIndex="3" />
             <Label text="End TIme:" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-            <Button fx:id="cancel_btn" mnemonicParsing="false" text="Cancel" GridPane.columnIndex="4" GridPane.rowIndex="5" GridPane.valignment="BOTTOM" />
-            <Button fx:id="update_btn" mnemonicParsing="false" text="Update" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="BOTTOM" />
+            <Button fx:id="cancel_btn" mnemonicParsing="false" onAction="#onCancelClick" text="Cancel" GridPane.columnIndex="4" GridPane.rowIndex="5" GridPane.valignment="BOTTOM" />
+            <Button fx:id="update_btn" mnemonicParsing="false" onAction="#onUpdateAppClick" text="Update" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="BOTTOM" />
             <TextField fx:id="appID_input" disable="true" text="Auto Gen : " GridPane.columnIndex="1" />
             <ComboBox fx:id="customer_selection" prefHeight="25.0" prefWidth="225.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <DatePicker fx:id="date_selection" prefHeight="25.0" prefWidth="327.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />

@@ -61,17 +61,14 @@ public abstract class Appointments_DA {
                 int custId=rs.getInt("Customer_ID");
                 int userId=rs.getInt("User_ID");
                 int contactId=rs.getInt("Contact_ID");
-
-                //   s(int addressId, String address, String address2, int cityId, String postalCode, String phone, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy)
+                
                 Appointment appResult= new Appointment(appId, appName, appDesc, appLoc, appType, localStart, localEnd, createDateCalendar, createdBy, lastUpdateCalendar, lastUpdateby, custId, userId, contactId);
                 allAppointments.add(appResult);
             }
-        } catch (SQLException throwables) {
+        } catch (SQLException | ParseException throwables) {
             throwables.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
-        JDBC.closeConnection();
+
         return allAppointments;
     }
 
