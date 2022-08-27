@@ -10,9 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/18"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="deamwhitten.appointmentscheduler.Controller.Update_Customer_Controller">
+<AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="deamwhitten.appointmentscheduler.Controller.Update_Customer_Controller">
    <children>
       <GridPane layoutX="18.0" layoutY="28.0" prefHeight="358.0" prefWidth="364.0">
         <columnConstraints>
@@ -50,8 +48,8 @@
             <TextField fx:id="postalCode_input" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="181.0" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
             <ComboBox fx:id="country_selection" prefHeight="25.0" prefWidth="179.0" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
             <ComboBox fx:id="division_selection" prefHeight="25.0" prefWidth="179.0" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
-            <Button fx:id="cancel_btn" mnemonicParsing="false" text="Cancel" GridPane.rowIndex="8" />
-            <Button fx:id="updateCustomer_btn" mnemonicParsing="false" text="Update Customer" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
+            <Button fx:id="cancel_btn" mnemonicParsing="false" onAction="#onCancelUpdateCustomerClick" text="Cancel" GridPane.rowIndex="8" />
+            <Button fx:id="updateCustomer_btn" mnemonicParsing="false" onAction="#onUpdateCustomerClick" text="Update Customer" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
             <Label fx:id="error_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="397.0" text="errorMSG_label" textAlignment="CENTER" textFill="RED" GridPane.halignment="CENTER" GridPane.rowIndex="9" />
          </children>
       </GridPane>

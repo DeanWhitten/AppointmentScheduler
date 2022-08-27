@@ -1,7 +1,7 @@
 package deamwhitten.appointmentscheduler.Controller;
 
-import deamwhitten.appointmentscheduler.Utils.Collections.Appointment_Collections;
-import deamwhitten.appointmentscheduler.Utils.Collections.Customer_Collections;
+import deamwhitten.appointmentscheduler.Model.Appointment;
+import deamwhitten.appointmentscheduler.Utils.Collections.*;
 import deamwhitten.appointmentscheduler.Utils.Window_Handler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +10,9 @@ import javafx.scene.control.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.chrono.Chronology;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class Update_Appointment_Controller implements Initializable {
@@ -20,7 +23,7 @@ public class Update_Appointment_Controller implements Initializable {
     @FXML
     private ComboBox<String> contact_selection;
     @FXML
-    private TextField type_input;
+    private ComboBox<String> type_selection;
     @FXML
     private TextField title_input;
     @FXML
@@ -38,16 +41,41 @@ public class Update_Appointment_Controller implements Initializable {
     @FXML
     private Label error_label;
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Appointment selectedApp = MainWindow_Controller.selectedAppointment;
         try {
-            appID_input.setText("Auto Generated ID: ");
-            customer_selection.getItems().addAll(Customer_Collections.getAllCustomersNames());
+            customer_selection.getItems().addAll(Customers_Collections.getAllCustomersNames());
+            type_selection.getItems().addAll(Appointments_Collections.getAllAppointmentTypeOptions());
+            contact_selection.getItems().addAll(Contacts_Collections.getAllContactNames());
+            country_selection.getItems().addAll(Counties_Collections.getAllCountiesNames());
+            start_selection.getItems().addAll(Appointments_Collections.getAllBusinessHoursAppointmentStartTimes());
+            end_selection.getItems().addAll(Appointments_Collections.getAllBusinessHoursAppointmentEndTimes());
 
+            appID_input.setText(String.valueOf(selectedApp.getId()));
+            customer_selection.getSelectionModel().select(selectedApp.getCustomerId()-1);
+            contact_selection.getSelectionModel().select(selectedApp.getContactId()-1);
+            type_selection.getSelectionModel().select(selectedApp.getType());
+            title_input.setText(selectedApp.getTitle());
+            description_input.setText(selectedApp.getDescription());
+            country_selection.getSelectionModel().select(selectedApp.getLocation());
+            division_selection.getSelectionModel().select(selectedApp.getLocation());
+            date_selection.setValue(LocalDate.parse(selectedApp.getStart().substring(0,10)));
+            start_selection.getSelectionModel().select(selectedApp.getStart().substring(11, 19));
+            end_selection.getSelectionModel().select(selectedApp.getEnd().substring(11, 19));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @FXML
+    public void onCountrySelected(ActionEvent event) {
+        division_selection.getItems().clear();
+        String selectedCounty = country_selection.getSelectionModel().getSelectedItem();
+        if(selectedCounty != null){
+            division_selection.getItems().addAll(Divisions_Collections.getSelectedDivisionNamesByCountryID(selectedCounty));
+        }
+
     }
 
     @FXML

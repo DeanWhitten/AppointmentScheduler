@@ -1,4 +1,4 @@
-package deamwhitten.appointmentscheduler.DataBase_Access;
+package deamwhitten.appointmentscheduler.Utils.DataBase_Access;
 import deamwhitten.appointmentscheduler.Model.Customer;
 import deamwhitten.appointmentscheduler.Utils.JDBC;
 import javafx.collections.FXCollections;
@@ -13,9 +13,9 @@ import java.util.Calendar;
 import static deamwhitten.appointmentscheduler.Utils.Time_Handler.stringToCalendar;
 
 public class Customers_DA {
+
     //READ- ALL- Customers
     public static ObservableList<Customer> getAllCustomersData() {
-        //DBConnection.openConnection();
         ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
         try {
             String sql = "SELECT * FROM customers";
@@ -31,21 +31,20 @@ public class Customers_DA {
                 String createDate = rs.getString("Create_Date");
                 String createdBy = rs.getString("Created_By");
                 String lastUpdate = rs.getString("Last_Update");
-                String lastUpdateby = rs.getString("Last_Updated_By");
+                String lastUpdatedBy = rs.getString("Last_Updated_By");
                 int divisionId = rs.getInt("Division_ID");
 
                 Calendar createDateCalendar = stringToCalendar(createDate);
                 Calendar lastUpdateCalendar = stringToCalendar(lastUpdate);
 
-
                 Customer customerResult = new Customer(id, name, address, postalCode, phone,
-                        createDateCalendar, createdBy, lastUpdateCalendar, lastUpdateby, divisionId);
+                        createDateCalendar, createdBy, lastUpdateCalendar, lastUpdatedBy, divisionId);
                 allCustomers.add(customerResult);
             }
-        } catch (SQLException | ParseException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException | ParseException e) {
+            e.printStackTrace();
         }
-
         return allCustomers;
     }
+
 }

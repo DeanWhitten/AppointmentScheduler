@@ -3,10 +3,11 @@ package deamwhitten.appointmentscheduler.Controller;
 
 import deamwhitten.appointmentscheduler.Model.Appointment;
 import deamwhitten.appointmentscheduler.Model.Customer;
-import deamwhitten.appointmentscheduler.Utils.Collections.Appointment_Collections;
+import deamwhitten.appointmentscheduler.Utils.Collections.Appointments_Collections;
 
-import deamwhitten.appointmentscheduler.Utils.Collections.Customer_Collections;
+import deamwhitten.appointmentscheduler.Utils.Collections.Customers_Collections;
 
+import deamwhitten.appointmentscheduler.Utils.CurrentSession_Handler;
 import deamwhitten.appointmentscheduler.Utils.Window_Handler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +22,8 @@ import java.util.ResourceBundle;
 import static javafx.collections.FXCollections.observableArrayList;
 
 public class MainWindow_Controller implements Initializable {
+    @FXML
+    private Label user_msg_label;
     @FXML
     private TableView<Appointment> appointments_table;
     @FXML
@@ -72,44 +75,49 @@ public class MainWindow_Controller implements Initializable {
     @FXML
     private Label customer_error_label;
 
-    private Appointment selectedAppointment;
-    private Customer selectedCustomer;
+    public static Appointment selectedAppointment;
+    public static Customer selectedCustomer;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+             user_msg_label.setText("Welcome, " + CurrentSession_Handler.getUserName());
             loadTables();
-            filterByCustomer_selection.getItems().addAll(observableArrayList(Customer_Collections.getAllCustomersNames()));
+            filterByCustomer_selection.getItems().addAll(observableArrayList(Customers_Collections.getAllCustomersNames()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
     
     //appointment radios filters - All, Month, Week
+    @FXML
     public void onAppointmentRadioSelection() throws Exception {
         filterByCustomer_selection.getSelectionModel().clearSelection();
        if(all_radio.isSelected()){
-          appointments_table.setItems(Appointment_Collections.getAllAppointments());
+          appointments_table.setItems(Appointments_Collections.getAllAppointments());
        }
        if (month_radio.isSelected()) {
-           appointments_table.setItems(Appointment_Collections.getThisMonthAppointments());
+           appointments_table.setItems(Appointments_Collections.getThisMonthAppointments());
        }
        if (week_radio.isSelected()){
-           appointments_table.setItems(Appointment_Collections.getThisWeekAppointments());
+           appointments_table.setItems(Appointments_Collections.getThisWeekAppointments());
        }
     }
 
     //appointment customer filter
+    @FXML
     public void onFilterByCustomerSelected() throws Exception {
-        appointments_table.setItems(Appointment_Collections.getSelectedCustomerAppointments(filterByCustomer_selection.getValue()));
+        appointments_table.setItems(Appointments_Collections.getSelectedCustomerAppointments(filterByCustomer_selection.getValue()));
     }
 
     //schedule appointment
+    @FXML
     public void onScheduleAppointmentClick(ActionEvent event) throws IOException {
         Window_Handler.loadWindow("Add_Appointment_View", "Schedule Appointment", event);
     }
 
     //update appointment
+    @FXML
     public void onUpdateAppointmentClick(ActionEvent event) throws IOException {
         selectedAppointment =appointments_table.getSelectionModel().getSelectedItem();
            try {
@@ -126,6 +134,7 @@ public class MainWindow_Controller implements Initializable {
     }
 
     //cancel appointment
+    @FXML
     public void onCancelAppointmentClick(){
         selectedAppointment =appointments_table.getSelectionModel().getSelectedItem();
         try {
@@ -142,11 +151,13 @@ public class MainWindow_Controller implements Initializable {
     }
 
     //add customer
+    @FXML
     public void onAddNewCustomerClick(ActionEvent event) throws IOException {
         Window_Handler.loadWindow("Add_Customer_View", "Add New Customer", event);
     }
 
     //update customer
+    @FXML
     public void onUpdateCustomerClick(ActionEvent event) throws IOException {
         selectedCustomer = customers_table.getSelectionModel().getSelectedItem();
         try {
@@ -163,6 +174,7 @@ public class MainWindow_Controller implements Initializable {
     }
 
     //delete customer
+    @FXML
     public void onDeleteCustomerClick(){
         selectedCustomer = customers_table.getSelectionModel().getSelectedItem();
         try {
@@ -206,8 +218,8 @@ public class MainWindow_Controller implements Initializable {
         //Report tables- 3
 
         try {
-            appointments_table.setItems(Appointment_Collections.getAllAppointments());
-            customers_table.setItems(Customer_Collections.getAllCustomers());
+            appointments_table.setItems(Appointments_Collections.getAllAppointments());
+            customers_table.setItems(Customers_Collections.getAllCustomers());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

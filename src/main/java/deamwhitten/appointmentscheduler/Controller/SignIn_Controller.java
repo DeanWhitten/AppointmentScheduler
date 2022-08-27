@@ -1,6 +1,7 @@
 package deamwhitten.appointmentscheduler.Controller;
 
-import deamwhitten.appointmentscheduler.DataBase_Access.SignIn_DA;
+import deamwhitten.appointmentscheduler.Utils.DataBase_Access.SignIn_DA;
+import deamwhitten.appointmentscheduler.Utils.CurrentSession_Handler;
 import deamwhitten.appointmentscheduler.Utils.Window_Handler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,7 +28,7 @@ public class SignIn_Controller implements Initializable {
     @FXML
     private TextField password_input;
     @FXML
-    public static Label error_label;
+    private Label error_label;
     @FXML
     private Button signIn_btn;
     @FXML
@@ -35,24 +36,26 @@ public class SignIn_Controller implements Initializable {
 
     @FXML
     public void onSignInClick(ActionEvent event) throws IOException{
-        String userID = userID_input.getText();
+        String userName = userID_input.getText();
         String password = password_input.getText();
 
-        if(!userID.isEmpty() && !password.isEmpty()){
-            Boolean isValid = SignIn_DA.validate(userID, password);
+        if(!userName.isEmpty() && !password.isEmpty()){
+            Boolean isValid = SignIn_DA.validate(userName, password);
             if(isValid){
+                CurrentSession_Handler.logActivity(userName, "Successful");
                 Window_Handler.loadWindow("MainWindow_View","Appointment Scheduler", event);
             }else {
-                showLoginError("Incorrect user name or password.");
+                CurrentSession_Handler.logActivity(userName, "Failed");
+                error_label.setText("Incorrect user name or password.");
+                error_label.setOpacity(1);
             }
         }else {
-            showLoginError("Please input user name and password to login.");
+           error_label.setText("Please input user name and password to login.");
+           error_label.setOpacity(1);
         }
+
     }
-    public static void showLoginError(String msg) {
-        SignIn_Controller.error_label.setText(msg);
-        SignIn_Controller.error_label.setOpacity(1);
-    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

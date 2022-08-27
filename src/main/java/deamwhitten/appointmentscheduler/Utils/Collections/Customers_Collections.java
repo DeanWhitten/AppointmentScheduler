@@ -1,11 +1,11 @@
 package deamwhitten.appointmentscheduler.Utils.Collections;
 
-import deamwhitten.appointmentscheduler.DataBase_Access.Customers_DA;
+import deamwhitten.appointmentscheduler.Utils.DataBase_Access.Customers_DA;
 import deamwhitten.appointmentscheduler.Model.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class Customer_Collections {
+public class Customers_Collections {
     //All Customers
     public static ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
     public static ObservableList<Customer> getAllCustomers() {
@@ -23,5 +23,16 @@ public class Customer_Collections {
         }
 
         return allCustomersNames;
+    }
+
+    public static int getCustomerIDByName(String selectedCustomerName) {
+        getAllCustomers();
+        int customerID = 0;
+        for (Customer customer: allCustomers){
+            if(customer.getName().equals(selectedCustomerName)){
+                 customerID = customer.getId();
+            }
+        }
+        return customerID;
     }
 }

@@ -48,13 +48,13 @@
             <DatePicker fx:id="date_selection" prefHeight="25.0" prefWidth="327.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
             <ComboBox fx:id="start_selection" prefHeight="25.0" prefWidth="255.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
             <ComboBox fx:id="end_selection" prefHeight="25.0" prefWidth="283.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-            <ComboBox fx:id="country_selection" prefHeight="25.0" prefWidth="229.0" GridPane.columnIndex="4" />
+            <ComboBox fx:id="country_selection" onAction="#onCountrySelected" prefHeight="25.0" prefWidth="229.0" GridPane.columnIndex="4" />
             <ComboBox fx:id="contact_selection" prefHeight="25.0" prefWidth="230.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="type_input" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextArea fx:id="description_input" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <TextField fx:id="title_input" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Label text="Division:" GridPane.columnIndex="3" GridPane.rowIndex="1" />
             <ComboBox fx:id="division_selection" prefHeight="25.0" prefWidth="278.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <ComboBox fx:id="type_selection" prefHeight="25.0" prefWidth="232.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
       <Label layoutX="32.0" layoutY="14.0" text="Schedule Appointment">
