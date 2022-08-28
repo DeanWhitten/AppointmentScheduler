@@ -3,11 +3,14 @@ import deamwhitten.appointmentscheduler.Model.User;
 import deamwhitten.appointmentscheduler.Utils.CurrentSession_Handler;
 import deamwhitten.appointmentscheduler.Utils.JDBC;
 
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public abstract class SignIn_DA {
+
     public static Boolean validate(String userName, String password) {
         try {
             String sqlQuery = "SELECT * FROM users ";

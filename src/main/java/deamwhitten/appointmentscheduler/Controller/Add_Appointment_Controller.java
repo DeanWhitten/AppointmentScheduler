@@ -100,7 +100,6 @@ public class Add_Appointment_Controller implements Initializable {
         int start = Integer.parseInt(start_selection.getSelectionModel().getSelectedItem().substring(0,1));
         int end = Integer.parseInt(end_selection.getSelectionModel().getSelectedItem().substring(0,1));
 
-        if(!appID_input.getText().isEmpty()){
             if(!customer_selection.getSelectionModel().isEmpty()){
                 if(!contact_selection.getSelectionModel().isEmpty()){
                     if(!type_selection.getSelectionModel().isEmpty()){
@@ -172,9 +171,7 @@ public class Add_Appointment_Controller implements Initializable {
                 error_label.setText("Please select a customer for the appointment");
                 return false;
             }
-        } else {
-            return false;
-        }
+
     }
 
     private Boolean checkTimes() throws Exception {

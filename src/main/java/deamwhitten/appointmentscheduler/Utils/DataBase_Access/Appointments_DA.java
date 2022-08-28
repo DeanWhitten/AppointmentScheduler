@@ -100,4 +100,21 @@ public abstract class Appointments_DA {
             System.out.println("Error " + except_sql.getMessage());
         }
     }
+
+    public static void updateAppointmentDataInDB(int id, String name, String description, String location, String type, ZonedDateTime start, ZonedDateTime end, int customerID, int contactID, String userName, int useID) throws SQLException, Exception{
+        try {
+            String modifiedBy = userName;
+            int modifiedID = useID;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            Timestamp sqlStartDT = Timestamp.valueOf(start.toLocalDateTime());
+            Timestamp sqlEndDT = Timestamp.valueOf(end.toLocalDateTime());
+            String sql = "update appointments set Title = '" + name + "', Description = '" + description + "', Location = '" + location + "', Type = '" + type + "', Start = '" + sqlStartDT + "', End = '" + sqlEndDT + "', Last_Update = '" + LocalDateTime.now().format(formatter) + "', Last_Updated_By = '" + modifiedBy + "', Customer_ID = '" + customerID + "', User_ID = '" + modifiedID + "', Contact_ID = '" + contactID + "' where Appointment_ID = " + id;
+            PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+            int rs = ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

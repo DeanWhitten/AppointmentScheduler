@@ -34,8 +34,13 @@ public class SignIn_Controller implements Initializable {
     @FXML
     private Label location_label;
 
+
+
     @FXML
     public void onSignInClick(ActionEvent event) throws IOException{
+        ResourceBundle user_language;
+        Locale current = get_locale();
+        user_language = ResourceBundle.getBundle("language", current);
         String userName = userID_input.getText();
         String password = password_input.getText();
 
@@ -46,11 +51,11 @@ public class SignIn_Controller implements Initializable {
                 Window_Handler.loadWindow("MainWindow_View","Appointment Scheduler", event);
             }else {
                 CurrentSession_Handler.logActivity(userName, "Failed");
-                error_label.setText("Incorrect user name or password.");
+                error_label.setText(user_language.getString("WrongInputs"));
                 error_label.setOpacity(1);
             }
         }else {
-           error_label.setText("Please input user name and password to login.");
+           error_label.setText(user_language.getString("MissingInputs"));
            error_label.setOpacity(1);
         }
 
@@ -59,6 +64,23 @@ public class SignIn_Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-       location_label.setText("Location: " + Locale.getDefault().getDisplayCountry() +"\t\tLanguage: " + Locale.getDefault().getDisplayLanguage());
+        ResourceBundle user_language;
+        Locale current = get_locale();
+        user_language = ResourceBundle.getBundle("language", current);
+
+        title_label.setText(user_language.getString("Welcome"));
+        userID_label.setText(user_language.getString("UserID"));
+        password_label.setText(user_language.getString("Password"));
+        signIn_btn.setText(user_language.getString("SignIn"));
+        String locationText = user_language.getString("Location");
+        String languageText = user_language.getString("Language");
+        location_label.setText(locationText + " " + Locale.getDefault().getDisplayCountry() +"\t" +
+                "\t"+ languageText + " " + Locale.getDefault().getDisplayLanguage());
+
+    }
+    public static Locale get_locale()
+    {
+        System.out.println("local Default: " + Locale.getDefault());
+        return Locale.getDefault();
     }
 }
