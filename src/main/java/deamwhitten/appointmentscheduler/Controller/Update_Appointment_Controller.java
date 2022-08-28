@@ -11,8 +11,6 @@ import javafx.scene.control.*;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.chrono.Chronology;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class Update_Appointment_Controller implements Initializable {
@@ -88,16 +86,11 @@ public class Update_Appointment_Controller implements Initializable {
 
             if(isValidInput){
                 Window_Handler.loadWindow("MainWindow_View","Appointment Scheduler", event);
-            } else {
-               getErrorMsg();
             }
     }
 
     private Boolean validateInput() {
         return true;
-    }
-
-    private void getErrorMsg() {
     }
 
 }

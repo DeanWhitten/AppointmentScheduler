@@ -24,4 +24,15 @@ public class Contacts_Collections {
         }
         return allContactNames;
     }
+
+    public static int getContactIdByName(String contact) {
+        getAllContacts();
+        int id = 0;
+        for(Contact c : allContacts){
+            if(c.getName().equals(contact)){
+                id = c.getId();
+            }
+        }
+        return id;
+    }
 }

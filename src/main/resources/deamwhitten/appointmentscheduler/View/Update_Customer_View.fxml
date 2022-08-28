@@ -46,7 +46,7 @@
             <TextField fx:id="phoneNumber_input" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="181.0" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
             <TextField fx:id="address_input" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="181.0" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
             <TextField fx:id="postalCode_input" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="181.0" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
-            <ComboBox fx:id="country_selection" prefHeight="25.0" prefWidth="179.0" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
+            <ComboBox fx:id="country_selection" onAction="#onCountrySelected" prefHeight="25.0" prefWidth="179.0" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
             <ComboBox fx:id="division_selection" prefHeight="25.0" prefWidth="179.0" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
             <Button fx:id="cancel_btn" mnemonicParsing="false" onAction="#onCancelUpdateCustomerClick" text="Cancel" GridPane.rowIndex="8" />
             <Button fx:id="updateCustomer_btn" mnemonicParsing="false" onAction="#onUpdateCustomerClick" text="Update Customer" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
