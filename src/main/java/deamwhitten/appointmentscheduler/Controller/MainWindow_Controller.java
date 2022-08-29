@@ -7,7 +7,8 @@ import deamwhitten.appointmentscheduler.Utils.Collections.Appointments_Collectio
 
 import deamwhitten.appointmentscheduler.Utils.Collections.Customers_Collections;
 
-import deamwhitten.appointmentscheduler.Utils.CurrentSession_Handler;
+import deamwhitten.appointmentscheduler.Utils.CurrentSession_properties;
+import deamwhitten.appointmentscheduler.Utils.DataBase_Access.Appointments_DA;
 import deamwhitten.appointmentscheduler.Utils.Window_Handler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static deamwhitten.appointmentscheduler.Utils.Collections.Appointments_Collections.getAllAppointments;
 import static javafx.collections.FXCollections.observableArrayList;
 
 public class MainWindow_Controller implements Initializable {
@@ -81,7 +83,7 @@ public class MainWindow_Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-             user_msg_label.setText("Welcome, " + CurrentSession_Handler.getUserName());
+             user_msg_label.setText("Welcome, " + CurrentSession_properties.getUserName());
             loadTables();
             filterByCustomer_selection.getItems().addAll(observableArrayList(Customers_Collections.getAllCustomersNames()));
         } catch (Exception e) {
@@ -91,10 +93,10 @@ public class MainWindow_Controller implements Initializable {
     
     //appointment radios filters - All, Month, Week
     @FXML
-    public void onAppointmentRadioSelection() throws Exception {
+    public void onAppointmentRadioSelection() {
         filterByCustomer_selection.getSelectionModel().clearSelection();
        if(all_radio.isSelected()){
-          appointments_table.setItems(Appointments_Collections.getAllAppointments());
+          appointments_table.setItems(getAllAppointments());
        }
        if (month_radio.isSelected()) {
            appointments_table.setItems(Appointments_Collections.getThisMonthAppointments());
@@ -106,7 +108,7 @@ public class MainWindow_Controller implements Initializable {
 
     //appointment customer filter
     @FXML
-    public void onFilterByCustomerSelected() throws Exception {
+    public void onFilterByCustomerSelected() {
         appointments_table.setItems(Appointments_Collections.getSelectedCustomerAppointments(filterByCustomer_selection.getValue()));
     }
 
@@ -140,11 +142,13 @@ public class MainWindow_Controller implements Initializable {
         try {
             if( selectedAppointment != null) {
                 System.out.println("CLICKED CANCEL APPOINTMENT");
+                Appointments_DA.deleteAppointment(appointments_table.getSelectionModel().getSelectedItem().getId());
+                appointments_table.setItems(getAllAppointments());
             }
             if (selectedAppointment==null) {
                 customer_error_label.setText("Select an Appointment to cancel");
             }
-        }catch (NullPointerException e)
+        }catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -218,7 +222,7 @@ public class MainWindow_Controller implements Initializable {
         //Report tables- 3
 
         try {
-            appointments_table.setItems(Appointments_Collections.getAllAppointments());
+            appointments_table.setItems(getAllAppointments());
             customers_table.setItems(Customers_Collections.getAllCustomers());
         } catch (Exception e) {
             throw new RuntimeException(e);

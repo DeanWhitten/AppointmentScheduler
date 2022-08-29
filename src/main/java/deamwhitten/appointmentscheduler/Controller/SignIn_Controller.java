@@ -1,7 +1,7 @@
 package deamwhitten.appointmentscheduler.Controller;
 
 import deamwhitten.appointmentscheduler.Utils.DataBase_Access.SignIn_DA;
-import deamwhitten.appointmentscheduler.Utils.CurrentSession_Handler;
+import deamwhitten.appointmentscheduler.Utils.CurrentSession_properties;
 import deamwhitten.appointmentscheduler.Utils.Window_Handler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,10 +47,10 @@ public class SignIn_Controller implements Initializable {
         if(!userName.isEmpty() && !password.isEmpty()){
             Boolean isValid = SignIn_DA.validate(userName, password);
             if(isValid){
-                CurrentSession_Handler.logActivity(userName, "Successful");
+                CurrentSession_properties.logActivity(userName, "Successful");
                 Window_Handler.loadWindow("MainWindow_View","Appointment Scheduler", event);
             }else {
-                CurrentSession_Handler.logActivity(userName, "Failed");
+                CurrentSession_properties.logActivity(userName, "Failed");
                 error_label.setText(user_language.getString("WrongInputs"));
                 error_label.setOpacity(1);
             }

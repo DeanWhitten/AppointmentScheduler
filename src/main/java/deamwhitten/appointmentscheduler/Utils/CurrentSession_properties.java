@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class CurrentSession_Handler {
+public class CurrentSession_properties {
     private static ObservableList<User> activeUser = FXCollections.observableArrayList();
 
     public static void assignSessionUser(User userLoggedIn) {
@@ -21,12 +21,13 @@ public class CurrentSession_Handler {
 
     public static void logActivity(String userName, String loginResult) {
         try {
-            File myObj = new File("src/main/resources/login_activity.txt");
+            File myObj = new File("login_activity.txt");
             if (myObj.createNewFile()) {
                 System.out.println("File created: " + myObj.getName());
             } else {
                 try {
-                    FileWriter myWriter = new FileWriter("src/main/resources/login_activity.txt");
+                    FileWriter myWriter = new FileWriter("login_activity.txt",
+                            true);
                     myWriter.write( userName + " --- " + LocalDate.now() + " --- " + LocalTime.now() + " --- " + loginResult + "\n");
                     myWriter.close();
                     System.out.println("Successfully logged user activity.");

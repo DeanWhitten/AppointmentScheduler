@@ -1,6 +1,6 @@
 package deamwhitten.appointmentscheduler.Utils.DataBase_Access;
 import deamwhitten.appointmentscheduler.Model.User;
-import deamwhitten.appointmentscheduler.Utils.CurrentSession_Handler;
+import deamwhitten.appointmentscheduler.Utils.CurrentSession_properties;
 import deamwhitten.appointmentscheduler.Utils.JDBC;
 
 
@@ -22,7 +22,7 @@ public abstract class SignIn_DA {
                         int id =  rs.getInt("User_ID");
                         String name = rs.getString("User_Name");
                         User loggedUser = new User(id, name);
-                        CurrentSession_Handler.assignSessionUser(loggedUser);
+                        CurrentSession_properties.assignSessionUser(loggedUser);
                         return true;
                     }
                 }

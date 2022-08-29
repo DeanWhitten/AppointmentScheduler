@@ -1,6 +1,6 @@
 package deamwhitten.appointmentscheduler.Model;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
 
 public class Appointment {
     private int id;
@@ -8,36 +8,35 @@ public class Appointment {
     private String description;
     private String location;
     private String type;
-    private String start;
-    private String end;
-    private Calendar createDate;
-    private String createdBy;
-    private Calendar lastUpdate;
-    private String lastUpdateBy;
+    private LocalDateTime start;
+    private LocalDateTime end;
     private int customerId;
     private int userId;
     private int contactId;
 
-    public Appointment(int appId, String appTitle, String appDesc, String appLocation, String appType, String appStart, String appEnd, Calendar createDate, String createdBy, Calendar lastUpdate, String lastUpdateBy, int customerId, int userId, int contactId) {
-        this.setId(appId);
-        this.setTitle(appTitle);
-        this.setDescription(appDesc);
-        this.setLocation(appLocation);
-        this.setType(appType);
-        this.setStart(appStart);
-        this.setEnd(appEnd);
+    /**
+     * Appointments constructor.
+     *
+     * */
+    public Appointment(int appointmentID, String appointmentTitle, String appointmentDescription,
+                       String appointmentLocation, String appointmentType, LocalDateTime start, LocalDateTime end, int customerId,
+                       int userId, int contactId) {
 
-        this.setCreateDate(createDate);
-        this.setCreatedBy(createdBy);
-        this.setLastUpdate(lastUpdate);
-        this.setLastUpdateBy(lastUpdateBy);
-
+        this.setId(appointmentID);
+        this.setTitle(appointmentTitle);
+        this.setDescription(appointmentDescription);
+        this.setLocation(appointmentLocation);
+        this.setType(appointmentType);
+        this.setStart(start);
+        this.setEnd(end);
         this.setCustomerId(customerId);
         this.setUserId(userId);
         this.setContactId(contactId);
     }
 
-
+    /**
+     * Fields for the appointments class.
+     * */
     public int getId() {
         return id;
     }
@@ -78,52 +77,20 @@ public class Appointment {
         this.type = type;
     }
 
-    public String getStart() {
+    public LocalDateTime getStart() {
         return start;
     }
 
-    public void setStart(String start) {
+    public void setStart(LocalDateTime start) {
         this.start = start;
     }
 
-    public String getEnd() {
+    public LocalDateTime getEnd() {
         return end;
     }
 
-    public void setEnd(String end) {
+    public void setEnd(LocalDateTime end) {
         this.end = end;
-    }
-
-    public Calendar getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Calendar createDate) {
-        this.createDate = createDate;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Calendar getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(Calendar lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
-
-    public String getLastUpdateBy() {
-        return lastUpdateBy;
-    }
-
-    public void setLastUpdateBy(String lastUpdateBy) {
-        this.lastUpdateBy = lastUpdateBy;
     }
 
     public int getCustomerId() {

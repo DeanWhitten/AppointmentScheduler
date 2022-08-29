@@ -7,10 +7,7 @@ import javafx.collections.ObservableList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.util.Calendar;
 
-import static deamwhitten.appointmentscheduler.Utils.Time_Handler.stringToCalendar;
 
 public class Customers_DA {
 
@@ -19,29 +16,21 @@ public class Customers_DA {
         ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
         try {
             String sql = "SELECT * FROM customers";
+
             PreparedStatement ps = JDBC.connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
+
             while (rs.next()) {
-
-                int id = rs.getInt("Customer_ID");
-                String name = rs.getString("Customer_Name");
-                String address = rs.getString("Address");
-                String postalCode = rs.getString("Postal_Code");
-                String phone = rs.getString("Phone");
-                String createDate = rs.getString("Create_Date");
-                String createdBy = rs.getString("Created_By");
-                String lastUpdate = rs.getString("Last_Update");
-                String lastUpdatedBy = rs.getString("Last_Updated_By");
-                int divisionId = rs.getInt("Division_ID");
-
-                Calendar createDateCalendar = stringToCalendar(createDate);
-                Calendar lastUpdateCalendar = stringToCalendar(lastUpdate);
-
-                Customer customerResult = new Customer(id, name, address, postalCode, phone,
-                        createDateCalendar, createdBy, lastUpdateCalendar, lastUpdatedBy, divisionId);
-                allCustomers.add(customerResult);
+                int customerID = rs.getInt("Customer_ID");
+                String customerName = rs.getString("Customer_Name");
+                String customerAddress = rs.getString("Address");
+                String customerPostalCode = rs.getString("Postal_Code");
+                String customerPhone = rs.getString("Phone");
+                int divisionID = rs.getInt("Division_ID");
+                Customer customer = new Customer(customerID, customerName, customerAddress, customerPostalCode, customerPhone, divisionID);
+                allCustomers.add(customer);
             }
-        } catch (SQLException | ParseException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return allCustomers;

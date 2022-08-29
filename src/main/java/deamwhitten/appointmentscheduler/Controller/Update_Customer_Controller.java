@@ -56,8 +56,6 @@ public class Update_Customer_Controller implements Initializable {
         Boolean isValidInput = validateInput();
         if(isValidInput){
             Window_Handler.loadWindow("MainWindow_View","Appointment Scheduler", event);
-        } else {
-            getErrorMsg();
         }
     }
 
@@ -66,10 +64,37 @@ public class Update_Customer_Controller implements Initializable {
         Window_Handler.loadWindow("MainWindow_View","Appointment Scheduler", event);
     }
 
-    private void getErrorMsg() {
-    }
-
     private Boolean validateInput() {
-        return true;
+        if(!name_input.getText().isEmpty()){
+            if(!phoneNumber_input.getText().isEmpty()){
+                if(!address_input.getText().isEmpty()){
+                    if(!postalCode_input.getText().isEmpty()){
+                        if(!country_selection.getSelectionModel().getSelectedItem().isEmpty()){
+                            if(!division_selection.getSelectionModel().getSelectedItem().isEmpty()){
+                                return true;
+                            }else {
+                                division_selection.requestFocus();
+                                return false;
+                            }
+                        }else {
+                            country_selection.requestFocus();
+                            return false;
+                        }
+                    }else {
+                        postalCode_input.requestFocus();
+                        return false;
+                    }
+                }else{
+                    address_input.requestFocus();
+                    return false;
+                }
+            }else{
+                phoneNumber_input.requestFocus();
+                return false;
+            }
+        }else {
+            name_input.requestFocus();
+            return false;
+        }
     }
 }
