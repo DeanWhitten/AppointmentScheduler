@@ -4,6 +4,7 @@ import deamwhitten.appointmentscheduler.Model.Appointment;
 import deamwhitten.appointmentscheduler.Utils.Collections.*;
 import deamwhitten.appointmentscheduler.Utils.CurrentSession_properties;
 import deamwhitten.appointmentscheduler.Utils.DataBase_Access.Appointments_DA;
+import deamwhitten.appointmentscheduler.Utils.TimeOverlap_Error_Handler;
 import deamwhitten.appointmentscheduler.Utils.Window_Handler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -39,12 +40,13 @@ public class Update_Appointment_Controller implements Initializable {
     @FXML
     private ComboBox<LocalTime> end_selection;
     @FXML
-    private Label error_label;
+    public static Label error_label;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Appointment selectedApp = MainWindow_Controller.selectedAppointment;
         try {
+            error_label.setOpacity(0);
             customer_selection.getItems().addAll(Customers_Collections.getAllCustomersNames());
             type_selection.getItems().addAll(Appointments_Collections.getAllAppointmentTypeOptions());
             contact_selection.getItems().addAll(Contacts_Collections.getAllContactNames());
@@ -97,12 +99,18 @@ public class Update_Appointment_Controller implements Initializable {
     }
     @FXML
     public void onUpdateAppClick(ActionEvent event) throws IOException {
+        if(start_selection.getSelectionModel().getSelectedItem() != null && end_selection.getSelectionModel().getSelectedItem() != null){
             Boolean isValidInput = validateInput();
 
             if(isValidInput){
                 collectInputsAndSendToDA();
                 Window_Handler.loadWindow("MainWindow_View","Appointment Scheduler", event);
             }
+        }else {
+            error_label.setText("Please select appointment times.");
+            error_label.setOpacity(1);
+        }
+
     }
 
     private Boolean validateInput() {
@@ -130,6 +138,7 @@ public class Update_Appointment_Controller implements Initializable {
                                                 start_selection.requestFocus();
                                                 error_label.setText("Please select a start " +
                                                         "time that is before the end time.");
+                                                error_label.setOpacity(1);
                                                 return false;
                                             }
                                         } else {
@@ -137,50 +146,55 @@ public class Update_Appointment_Controller implements Initializable {
                                             start_selection.requestFocus();
                                             end_selection.getSelectionModel().clearSelection();
                                             start_selection.requestFocus();
-                                            error_label.setText("Please select times that dont" +
-                                                    " overlap with customers scheduled " +
-                                                    "appointments.");
                                             return false;
                                         }
                                     } else {
                                         date_selection.requestFocus();
                                         error_label.setText("Please select an appointment " +
                                                 "date.");
+                                        error_label.setOpacity(1);
                                         return false;
                                     }
                                 } else {
                                     division_selection.requestFocus();
                                     error_label.setText("Please select the division.");
+                                    error_label.setOpacity(1);
                                     return false;
                                 }
                             } else {
                                 country_selection.requestFocus();
                                 error_label.setText("Please select the country.");
+                                error_label.setOpacity(1);
                                 return false;
                             }
                         }else {
                             description_input.requestFocus();
                             error_label.setText("Please input a description.");
+                            error_label.setOpacity(1);
                             return false;
                         }
                     }else {
                         title_input.requestFocus();
                         error_label.setText("Please input a title.");
+                        error_label.setOpacity(1);
                         return false;
                     }
                 }else {
                     type_selection.requestFocus();
                     error_label.setText("Please select the appointment type.");
+                    error_label.setOpacity(1);
                     return false;
                 }
             }else {
                 contact_selection.requestFocus();
                 error_label.setText("Please select a contact for the appointment");
+                error_label.setOpacity(1);
                 return false;
             }
         }else {
             customer_selection.requestFocus();
             error_label.setText("Please select a customer for the appointment");
+            error_label.setOpacity(1);
             return false;
         }
 
@@ -192,11 +206,12 @@ public class Update_Appointment_Controller implements Initializable {
         LocalDateTime end =
                 LocalDateTime.of(date, end_selection.getSelectionModel().getSelectedItem());
 
-        return Appointments_Collections.checkForAppointmentOverlapByCustomer_Modify(start, end,
+        return TimeOverlap_Error_Handler.checkForAppointmentOverlapByCustomer_Modify(start, end,
                 Customers_Collections.getCustomerIDByName(customer),
                 MainWindow_Controller.selectedAppointment.getId());
 
     }
+
     private void collectInputsAndSendToDA() {
         int id = MainWindow_Controller.selectedAppointment.getId();
         int customerID = Customers_Collections.getCustomerIDByName(customer_selection.getSelectionModel().getSelectedItem());

@@ -54,10 +54,11 @@ public abstract class Appointments_DA {
     public static void writeNewAppointmentDataToDB(String customerName, String contact,
                                                    String type, String title, String description,
                                                    String location, LocalDateTime start, LocalDateTime end) {
-
-
         try {
-            String sql = "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) VALUES(?,?,?,?,?,?, ?,?,?) ";
+            String sql = "INSERT INTO appointments " +
+                    "(Title, Description, Location, Type, Start, End," +
+                    "Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID,Contact_ID) " +
+                    "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?) ";
 
             PreparedStatement ps = JDBC.connection.prepareStatement(sql);
 
@@ -67,9 +68,13 @@ public abstract class Appointments_DA {
             ps.setString(4, type);
             ps.setTimestamp(5, Timestamp.valueOf(start));
             ps.setTimestamp(6, Timestamp.valueOf(end));
-            ps.setInt(7, Customers_Collections.getCustomerIDByName(customerName));
-            ps.setInt(8, CurrentSession_properties.getUserID());
-            ps.setInt(9, Contacts_Collections.getContactIdByName(contact));
+            ps.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+            ps.setString(8 , CurrentSession_properties.getUserName());
+            ps.setTimestamp(9,Timestamp.valueOf(LocalDateTime.now()));
+            ps.setString(10,CurrentSession_properties.getUserName());
+            ps.setInt(11, Customers_Collections.getCustomerIDByName(customerName));
+            ps.setInt(12, CurrentSession_properties.getUserID());
+            ps.setInt(13, Contacts_Collections.getContactIdByName(contact));
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -77,12 +82,14 @@ public abstract class Appointments_DA {
     }
 
     public static void updateAppointmentDataToDB(int appointmentID, String title,
-                                                 String description,
-                                         String location, String type,
-                                         LocalDateTime start, LocalDateTime end, int customerID, int userID, int contactID) {
+                                                 String description, String location, String type,
+                                                 LocalDateTime start, LocalDateTime end,
+                                                 int customerID, int userID, int contactID) {
         try {
-            String sql = "UPDATE appointments SET Title = ?, Description = ? ,  Location = ?, Type = ?," +
-                    " Start = ?, End = ? , Customer_ID = ? , User_ID = ? , Contact_ID = ? WHERE Appointment_ID = ? ";
+            String sql = "UPDATE appointments " +
+                    "SET Title = ?, Description = ? ,  Location = ?, Type = ?, Start = ?, End = ?, " +
+                    "Customer_ID = ? , User_ID = ? , Contact_ID = ?, Last_Update = ? , Last_Updated_By = ? " +
+                    "WHERE Appointment_ID = ? ";
             PreparedStatement ps = JDBC.connection.prepareStatement(sql);
 
             ps.setString(1, title);
@@ -94,7 +101,9 @@ public abstract class Appointments_DA {
             ps.setInt(7, customerID);
             ps.setInt(8, userID);
             ps.setInt(9, contactID);
-            ps.setInt(10, appointmentID);
+            ps.setTimestamp(10, Timestamp.valueOf(LocalDateTime.now()));
+            ps.setString(11, CurrentSession_properties.getUserName());
+            ps.setInt(12, appointmentID);
             ps.executeUpdate();
 
         } catch (SQLException e) {

@@ -1,18 +1,12 @@
 package deamwhitten.appointmentscheduler.Utils.Collections;
 
 import deamwhitten.appointmentscheduler.Model.Appointment;
-import deamwhitten.appointmentscheduler.Utils.DataBase_Access.Appointments_DA;
-
 import deamwhitten.appointmentscheduler.Model.Customer;
+import deamwhitten.appointmentscheduler.Utils.DataBase_Access.Appointments_DA;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 
 import java.time.LocalDate;
-
-import java.time.LocalDateTime;
-import java.util.Optional;
 
 
 public abstract class Appointments_Collections {
@@ -84,103 +78,5 @@ public abstract class Appointments_Collections {
         return FXCollections.observableArrayList("Planning Session", "Conference Call", "De-Briefing", "Miscellaneous", "Project Review", "Presentation", "Scrum", "Team Meeting");
     }
 
-    //all appointment start times during business hours
-    public static ObservableList<String> getAllBusinessHoursAppointmentStartTimes() {
-        ObservableList<String> allBusinessHoursAppointmentStartTimes = FXCollections.observableArrayList();
-        allBusinessHoursAppointmentStartTimes.clear();
-        for (int h = 8; h <= 21; h++) {
-            String newTime;
-            if (h < 10) {
-                newTime = "0" + h + ":00:00";
-            } else {
-                newTime = h + ":00:00";
-            }
-            allBusinessHoursAppointmentStartTimes.add(newTime);
-        }
-        return allBusinessHoursAppointmentStartTimes;
-    }
 
-    //all appointment  end times during business hours
-
-    public static ObservableList<String> getAllBusinessHoursAppointmentEndTimes() {
-        ObservableList<String> allBusinessHoursAppointmentEndTimes = FXCollections.observableArrayList();
-        allBusinessHoursAppointmentEndTimes.clear();
-        for (int h = 9; h <= 22; h++) {
-            String newTime;
-            if (h < 10) {
-                newTime = "0" + h + ":00:00";
-            } else {
-                newTime = h + ":00:00";
-            }
-            allBusinessHoursAppointmentEndTimes.add(newTime);
-        }
-        return allBusinessHoursAppointmentEndTimes;
-    }
-
-
-    public static Boolean checkForAppointmentOverlapByCustomer_Add(LocalDateTime Start,
-                                                                   LocalDateTime End,
-                                                                   int customerID) {
-
-        for (Appointment a : getAllAppointments()) {
-            if (a.getCustomerId() != customerID) {
-                continue;
-            }
-            if ((Start.isAfter(a.getStart()) || Start.isEqual(a.getStart())) && (Start.isBefore(a.getEnd()))) { //1
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Alert");
-                alert.setContentText("Start time overlaps a current appointment.");
-                Optional<ButtonType> result = alert.showAndWait();
-                return true;
-            }
-            if ((End.isAfter(a.getStart())) && (End.isBefore(a.getEnd()) || End.isEqual(a.getEnd()))) { //2
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Alert");
-                alert.setContentText("End time overlaps a current appointment.");
-                Optional<ButtonType> result = alert.showAndWait();
-                return true;
-            }
-            if ((Start.isBefore(a.getStart()) || Start.isEqual(a.getStart())) && (End.isAfter(a.getEnd()) || End.isEqual(a.getEnd()))) { //3
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Alert");
-                alert.setContentText("Start and end times overlap a current appointment.");
-                Optional<ButtonType> result = alert.showAndWait();
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static boolean checkForAppointmentOverlapByCustomer_Modify(LocalDateTime Start,
-                                                                   LocalDateTime End,
-                                                                   int customerID,
-                                                                   int appointmentID) {
-        for (Appointment a : getAllAppointments()) {
-            if (a.getCustomerId() != customerID || a.getId() == appointmentID) {
-                continue;
-            }
-            if ((Start.isAfter(a.getStart()) || Start.isEqual(a.getStart())) && (Start.isBefore(a.getEnd()))) { //1
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Alert");
-                alert.setContentText("Start time overlaps a current appointment.");
-                Optional<ButtonType> result = alert.showAndWait();
-                return true;
-            }
-            if ((End.isAfter(a.getStart())) && (End.isBefore(a.getEnd()) || End.isEqual(a.getEnd()))) { //2
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Alert");
-                alert.setContentText("End time overlaps a current appointment.");
-                Optional<ButtonType> result = alert.showAndWait();
-                return true;
-            }
-            if ((Start.isBefore(a.getStart()) || Start.isEqual(a.getStart())) && (End.isAfter(a.getEnd()) || End.isEqual(a.getEnd()))) { //3
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Alert");
-                alert.setContentText("Start and end times overlap a current appointment.");
-                Optional<ButtonType> result = alert.showAndWait();
-                return true;
-            }
-        }
-        return false;
-    }
 }

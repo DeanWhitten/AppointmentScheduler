@@ -2,6 +2,7 @@ package deamwhitten.appointmentscheduler.Controller;
 
 import deamwhitten.appointmentscheduler.Utils.Collections.*;
 import deamwhitten.appointmentscheduler.Utils.DataBase_Access.Appointments_DA;
+import deamwhitten.appointmentscheduler.Utils.TimeOverlap_Error_Handler;
 import deamwhitten.appointmentscheduler.Utils.Window_Handler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -37,10 +38,12 @@ public class Add_Appointment_Controller implements Initializable {
     @FXML
     private ComboBox<LocalTime> end_selection;
     @FXML
-    private Label error_label;
+   private Label error_label;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        error_label.setOpacity(0);
         try {
             appID_input.setText("--auto generated--");
             customer_selection.getItems().addAll(Customers_Collections.getAllCustomersNames());
@@ -84,105 +87,112 @@ public class Add_Appointment_Controller implements Initializable {
 
     @FXML
     public void onScheduleClick(ActionEvent event) throws Exception {
-        Boolean isValidInput = validateInputs();
-        if(isValidInput){
-            collectInputsAndSendToDA();
-            Window_Handler.loadWindow("MainWindow_View","Appointment Scheduler", event);
+        if(start_selection.getSelectionModel().getSelectedItem() != null && end_selection.getSelectionModel().getSelectedItem() != null){
+            Boolean isValidInput = validateInputs();
+            if(isValidInput){
+                collectInputsAndSendToDA();
+                Window_Handler.loadWindow("MainWindow_View","Appointment Scheduler", event);
+            }
+        }else {
+            error_label.setText("Please select appointment times.");
+            error_label.setOpacity(1);
         }
     }
 
-    private Boolean validateInputs() {
-        Boolean timeOverLap = checkTimes();
+    public Boolean validateInputs() {
+        Boolean timeOverLap= checkForOverlapTimes();
+
         LocalDate dateToAdd = date_selection.getValue();
         LocalDateTime start = LocalDateTime.of(dateToAdd, start_selection.getValue());
         LocalDateTime end = LocalDateTime.of(dateToAdd, end_selection.getValue());
-        
 
-            if(!customer_selection.getSelectionModel().isEmpty()){
-                if(!contact_selection.getSelectionModel().isEmpty()){
-                    if(!type_selection.getSelectionModel().isEmpty()){
-                        if(!title_input.getText().isEmpty()){
-                            if(!description_input.getText().isEmpty()){
-                                if(!country_selection.getSelectionModel().isEmpty()){
-                                    if(!division_selection.getSelectionModel().isEmpty()){
-                                        if(!(date_selection.getValue() == null)){
-                                           if(!start_selection.getSelectionModel().isEmpty() && !end_selection.getSelectionModel().isEmpty() && !timeOverLap){
-                                               if(start.isBefore(end) ){
-                                                   return true;
-                                               }else {
-                                                   start_selection.getSelectionModel().clearSelection();
-                                                   start_selection.requestFocus();
-                                                   end_selection.getSelectionModel().clearSelection();
-                                                   start_selection.requestFocus();
-                                                   error_label.setText("Please select a start " +
-                                                           "time that is before the end time.");
-                                                   return false;
-                                               }
-                                           } else {
-                                               start_selection.getSelectionModel().clearSelection();
-                                               start_selection.requestFocus();
-                                               end_selection.getSelectionModel().clearSelection();
-                                               start_selection.requestFocus();
-                                               error_label.setText("Please select times that dont" +
-                                                       " overlap with customers scheduled " +
-                                                       "appointments.");
-                                               return false;
-                                           }
+        if(!customer_selection.getSelectionModel().isEmpty()){
+            if(!contact_selection.getSelectionModel().isEmpty()){
+                if(!type_selection.getSelectionModel().isEmpty()){
+                    if(!title_input.getText().isEmpty()){
+                        if(!description_input.getText().isEmpty()){
+                            if(!country_selection.getSelectionModel().isEmpty()){
+                                if(!division_selection.getSelectionModel().isEmpty()){
+                                    if(!(date_selection.getValue() == null)){
+                                        if(!start_selection.getSelectionModel().isEmpty() && !end_selection.getSelectionModel().isEmpty() && !timeOverLap){
+                                            if(start.isBefore(end) ){
+                                                return true;
+                                            } else {
+                                                start_selection.getSelectionModel().clearSelection();
+                                                start_selection.requestFocus();
+                                                end_selection.getSelectionModel().clearSelection();
+                                                start_selection.requestFocus();
+                                                error_label.setText("Please select a start time that is before the end time.");
+                                                error_label.setOpacity(1);
+                                                    return false;
+                                                }
                                         } else {
-                                            date_selection.requestFocus();
-                                            error_label.setText("Please select an appointment " +
-                                                    "date.");
+                                            start_selection.getSelectionModel().clearSelection();
+                                            start_selection.requestFocus();
+                                            end_selection.getSelectionModel().clearSelection();
+                                            start_selection.requestFocus();
                                             return false;
                                         }
                                     } else {
-                                        division_selection.requestFocus();
-                                        error_label.setText("Please select the division.");
+                                        date_selection.requestFocus();
+                                        error_label.setText("Please select an appointment " +
+                                                "date.");
+                                        error_label.setOpacity(1);
                                         return false;
                                     }
                                 } else {
-                                    country_selection.requestFocus();
-                                    error_label.setText("Please select the country.");
+                                    division_selection.requestFocus();
+                                    error_label.setText("Please select the division.");
+                                    error_label.setOpacity(1);
                                     return false;
                                 }
-                            }else {
-                                description_input.requestFocus();
-                                error_label.setText("Please input a description.");
+                            } else {
+                                country_selection.requestFocus();
+                                error_label.setText("Please select the country.");
+                                error_label.setOpacity(1);
                                 return false;
                             }
                         }else {
-                            title_input.requestFocus();
-                            error_label.setText("Please input a title.");
+                            description_input.requestFocus();
+                            error_label.setText("Please input a description.");
+                            error_label.setOpacity(1);
                             return false;
                         }
                     }else {
-                        type_selection.requestFocus();
-                        error_label.setText("Please select the appointment type.");
+                        title_input.requestFocus();
+                        error_label.setText("Please input a title.");
+                        error_label.setOpacity(1);
                         return false;
                     }
                 }else {
-                    contact_selection.requestFocus();
-                    error_label.setText("Please select a contact for the appointment");
+                    type_selection.requestFocus();
+                    error_label.setText("Please select the appointment type.");
+                    error_label.setOpacity(1);
                     return false;
                 }
             }else {
-                customer_selection.requestFocus();
-                error_label.setText("Please select a customer for the appointment");
+                contact_selection.requestFocus();
+                error_label.setText("Please select a contact for the appointment");
+                error_label.setOpacity(1);
                 return false;
             }
+        }else {
+            customer_selection.requestFocus();
+            error_label.setText("Please select a customer for the appointment");
+            error_label.setOpacity(1);
+            return false;
+        }
 
     }
 
-    private Boolean checkTimes() {
+    private Boolean checkForOverlapTimes() {
         String customer = customer_selection.getSelectionModel().getSelectedItem();
         LocalDate date = date_selection.getValue();
         LocalDateTime start = LocalDateTime.of(date, start_selection.getSelectionModel().getSelectedItem());
-        LocalDateTime end =
-                LocalDateTime.of(date, end_selection.getSelectionModel().getSelectedItem());
-
-        return Appointments_Collections.checkForAppointmentOverlapByCustomer_Add(start, end,
-                Customers_Collections.getCustomerIDByName(customer));
-
+        LocalDateTime end = LocalDateTime.of(date, end_selection.getSelectionModel().getSelectedItem());
+        return TimeOverlap_Error_Handler.checkForAppointmentOverlapByCustomer_Add(start, end, Customers_Collections.getCustomerIDByName(customer), error_label);
     }
+
 
     private void collectInputsAndSendToDA() {
         String customerName = customer_selection.getSelectionModel().getSelectedItem();
@@ -190,12 +200,13 @@ public class Add_Appointment_Controller implements Initializable {
         String type = type_selection.getSelectionModel().getSelectedItem();
         String title = title_input.getText();
         String description = description_input.getText();
-        String location =
-                division_selection.getSelectionModel().getSelectedItem() +", " + country_selection.getSelectionModel().getSelectedItem();
+        String location = division_selection.getSelectionModel().getSelectedItem() +", " + country_selection.getSelectionModel().getSelectedItem();
         LocalDate dateToAdd = date_selection.getValue();
         LocalDateTime start = LocalDateTime.of(dateToAdd, start_selection.getValue());
         LocalDateTime end = LocalDateTime.of(dateToAdd, end_selection.getValue());
-        Appointments_DA.writeNewAppointmentDataToDB( customerName, contact,
-                type, title, description, location, start, end);
+
+        Appointments_DA.writeNewAppointmentDataToDB( customerName, contact, type, title, description, location, start, end);
     }
+
+
 }

@@ -60,4 +60,15 @@ public class Divisions_Collections {
         }
         return countryID;
     }
+
+    public static int findDivisionIdByName(String name){
+        int divisionID = 0;
+        getAllDivisions();
+        for (Division div : allDivisions){
+            if(div.getName().equals(name)){
+                divisionID = div.getId();
+            }
+        }
+        return divisionID;
+    }
 }

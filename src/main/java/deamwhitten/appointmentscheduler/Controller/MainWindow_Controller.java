@@ -18,6 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static deamwhitten.appointmentscheduler.Utils.Collections.Appointments_Collections.getAllAppointments;
@@ -26,6 +27,8 @@ import static javafx.collections.FXCollections.observableArrayList;
 public class MainWindow_Controller implements Initializable {
     @FXML
     private Label user_msg_label;
+    @FXML
+    private  Label app_delete_msg_label;
     @FXML
     private TableView<Appointment> appointments_table;
     @FXML
@@ -63,6 +66,8 @@ public class MainWindow_Controller implements Initializable {
     @FXML
     private TableView<Customer> customers_table;
     @FXML
+    private Label customer_delete_msg_label;
+    @FXML
     private TableColumn<Customer,Integer> customer_customerID_col;
     @FXML
     private TableColumn<Customer,String> customer_customerName_col;
@@ -82,6 +87,7 @@ public class MainWindow_Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        resetUI();
         try {
              user_msg_label.setText("Welcome, " + CurrentSession_properties.getUserName());
             loadTables();
@@ -94,6 +100,7 @@ public class MainWindow_Controller implements Initializable {
     //appointment radios filters - All, Month, Week
     @FXML
     public void onAppointmentRadioSelection() {
+        resetUI();
         filterByCustomer_selection.getSelectionModel().clearSelection();
        if(all_radio.isSelected()){
           appointments_table.setItems(getAllAppointments());
@@ -109,18 +116,21 @@ public class MainWindow_Controller implements Initializable {
     //appointment customer filter
     @FXML
     public void onFilterByCustomerSelected() {
+        resetUI();
         appointments_table.setItems(Appointments_Collections.getSelectedCustomerAppointments(filterByCustomer_selection.getValue()));
     }
 
     //schedule appointment
     @FXML
     public void onScheduleAppointmentClick(ActionEvent event) throws IOException {
+        resetUI();
         Window_Handler.loadWindow("Add_Appointment_View", "Schedule Appointment", event);
     }
 
     //update appointment
     @FXML
     public void onUpdateAppointmentClick(ActionEvent event) throws IOException {
+        resetUI();
         selectedAppointment =appointments_table.getSelectionModel().getSelectedItem();
            try {
                if( selectedAppointment != null) {
@@ -128,6 +138,7 @@ public class MainWindow_Controller implements Initializable {
                }
                if (selectedAppointment==null) {
                    app_error_label.setText("Select an Appointment to update");
+                   app_error_label.setOpacity(1);
                }
            }catch (NullPointerException e)
            {
@@ -138,15 +149,31 @@ public class MainWindow_Controller implements Initializable {
     //cancel appointment
     @FXML
     public void onCancelAppointmentClick(){
+        resetUI();
         selectedAppointment =appointments_table.getSelectionModel().getSelectedItem();
         try {
             if( selectedAppointment != null) {
                 System.out.println("CLICKED CANCEL APPOINTMENT");
-                Appointments_DA.deleteAppointment(appointments_table.getSelectionModel().getSelectedItem().getId());
-                appointments_table.setItems(getAllAppointments());
-            }
-            if (selectedAppointment==null) {
-                customer_error_label.setText("Select an Appointment to cancel");
+
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Alert");
+                alert.setContentText("You are about to delete " + selectedAppointment.getType() + " appointment " + selectedAppointment.getId() + ". \n Click OK to continue this action otherwise click cancel. ");
+                Optional<ButtonType> result = alert.showAndWait();
+
+                if(result.get() == ButtonType.OK){
+                    Appointments_DA.deleteAppointment(appointments_table.getSelectionModel().getSelectedItem().getId());
+
+                    String successMsg = "You Successfully canceled a $type appointment $appId.";
+                    app_delete_msg_label.setText(successMsg.replace("$type",
+                            selectedAppointment.getType() ).replace("$appId",
+                            String.valueOf(selectedAppointment.getId())));
+                    app_delete_msg_label.setOpacity(1);
+                    appointments_table.setItems(getAllAppointments());
+                }
+
+            }else{
+                app_error_label.setText("Select an Appointment to cancel");
+                app_error_label.setOpacity(1);
             }
         }catch (Exception e)
         {
@@ -157,12 +184,14 @@ public class MainWindow_Controller implements Initializable {
     //add customer
     @FXML
     public void onAddNewCustomerClick(ActionEvent event) throws IOException {
+        resetUI();
         Window_Handler.loadWindow("Add_Customer_View", "Add New Customer", event);
     }
 
     //update customer
     @FXML
     public void onUpdateCustomerClick(ActionEvent event) throws IOException {
+        resetUI();
         selectedCustomer = customers_table.getSelectionModel().getSelectedItem();
         try {
             if( selectedCustomer != null) {
@@ -170,6 +199,7 @@ public class MainWindow_Controller implements Initializable {
             }
             if (selectedCustomer == null) {
                 customer_error_label.setText("Select a customer to update");
+                customer_error_label.setOpacity(1);
             }
         }catch (NullPointerException e)
         {
@@ -180,6 +210,7 @@ public class MainWindow_Controller implements Initializable {
     //delete customer
     @FXML
     public void onDeleteCustomerClick(){
+        resetUI();
         selectedCustomer = customers_table.getSelectionModel().getSelectedItem();
         try {
             if( selectedCustomer != null) {
@@ -187,6 +218,7 @@ public class MainWindow_Controller implements Initializable {
             }
             if (selectedCustomer == null) {
                 customer_error_label.setText("Select a customer to delete");
+                customer_error_label.setOpacity(1);
             }
         }catch (NullPointerException e)
         {
@@ -227,5 +259,13 @@ public class MainWindow_Controller implements Initializable {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private  void resetUI(){
+         app_delete_msg_label.setOpacity(0);
+         app_error_label.setOpacity(0);
+
+         customer_delete_msg_label.setOpacity(0);
+         customer_error_label.setOpacity(0);
     }
 }

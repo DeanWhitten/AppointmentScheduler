@@ -16,6 +16,7 @@ module deamwhitten.appointmentscheduler {
     exports deamwhitten.appointmentscheduler.Controller;
     exports deamwhitten.appointmentscheduler.Model;
     exports deamwhitten.appointmentscheduler.Utils.DataBase_Access;
+	exports deamwhitten.appointmentscheduler.Utils;
 
 
 }
