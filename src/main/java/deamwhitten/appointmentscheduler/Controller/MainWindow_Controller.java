@@ -9,6 +9,7 @@ import deamwhitten.appointmentscheduler.Utils.Collections.Customers_Collections;
 
 import deamwhitten.appointmentscheduler.Utils.CurrentSession_properties;
 import deamwhitten.appointmentscheduler.Utils.DataBase_Access.Appointments_DA;
+import deamwhitten.appointmentscheduler.Utils.DataBase_Access.Customers_DA;
 import deamwhitten.appointmentscheduler.Utils.Window_Handler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -89,7 +90,7 @@ public class MainWindow_Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         resetUI();
         try {
-             user_msg_label.setText("Welcome, " + CurrentSession_properties.getUserName());
+            user_msg_label.setText("Welcome, " + CurrentSession_properties.getUserName());
             loadTables();
             filterByCustomer_selection.getItems().addAll(observableArrayList(Customers_Collections.getAllCustomersNames()));
         } catch (Exception e) {
@@ -153,8 +154,6 @@ public class MainWindow_Controller implements Initializable {
         selectedAppointment =appointments_table.getSelectionModel().getSelectedItem();
         try {
             if( selectedAppointment != null) {
-                System.out.println("CLICKED CANCEL APPOINTMENT");
-
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Alert");
                 alert.setContentText("You are about to delete " + selectedAppointment.getType() + " appointment " + selectedAppointment.getId() + ". \n Click OK to continue this action otherwise click cancel. ");
@@ -214,9 +213,25 @@ public class MainWindow_Controller implements Initializable {
         selectedCustomer = customers_table.getSelectionModel().getSelectedItem();
         try {
             if( selectedCustomer != null) {
-                System.out.println("CLICKED DELETE CUSTOMER");
-            }
-            if (selectedCustomer == null) {
+
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Alert");
+                alert.setContentText("You are about to delete " + selectedCustomer.getName() +"'s" +
+                        " data and all their currently scheduled appointments."  +
+                        ". \n " +
+                        "Click OK to " +
+                        "continue this action otherwise click cancel. ");
+                Optional<ButtonType> result = alert.showAndWait();
+
+                if(result.get() == ButtonType.OK){
+                    Customers_DA.deleteCustomer(selectedCustomer.getId());
+                    String successMsg = "You Successfully deleted customer data for $name.";
+                    customer_delete_msg_label.setText(successMsg.replace("$name", selectedCustomer.getName()));
+                    customer_delete_msg_label.setOpacity(1);
+                    customers_table.setItems(Customers_Collections.getAllCustomers());
+                    appointments_table.setItems(Appointments_Collections.getAllAppointments());
+                }
+            }else{
                 customer_error_label.setText("Select a customer to delete");
                 customer_error_label.setOpacity(1);
             }

@@ -1,6 +1,8 @@
 package deamwhitten.appointmentscheduler.Utils.DataBase_Access;
 
+import deamwhitten.appointmentscheduler.Model.Appointment;
 import deamwhitten.appointmentscheduler.Model.Customer;
+import deamwhitten.appointmentscheduler.Utils.Collections.Appointments_Collections;
 import deamwhitten.appointmentscheduler.Utils.CurrentSession_properties;
 import deamwhitten.appointmentscheduler.Utils.JDBC;
 import javafx.collections.FXCollections;
@@ -70,9 +72,9 @@ public class Customers_DA {
                                               String postal, String phone, int divisionID) {
         try {
             String sql = "UPDATE customers " +
-                    "SET Customer_Name= ?, Address = ?, Postal_Code = ?, Phone = ?, Last_Update " +
-                    "= ?, Last_Updated_By = ?, Division_ID = ?" +
-                    "WHERE Customer_ID = ? ";
+                    "SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, " +
+                    "Last_Update = ?, Last_Updated_By = ?, Division_ID = ?" +
+                    " WHERE Customer_ID = ? ";
             PreparedStatement ps = JDBC.connection.prepareStatement(sql);
 
             ps.setString(1, name);
@@ -91,4 +93,20 @@ public class Customers_DA {
         }
     }
 
+    public static void deleteCustomer(int customerID) {
+        try {
+            for(Appointment app : Appointments_Collections.getAllAppointments()){
+                if(app.getCustomerId() == customerID){
+                    Appointments_DA.deleteAppointment(app.getId());
+                }
+            }
+
+            String sql = "DELETE FROM customers WHERE Customer_ID = ?";
+            PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+            ps.setInt(1, customerID);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

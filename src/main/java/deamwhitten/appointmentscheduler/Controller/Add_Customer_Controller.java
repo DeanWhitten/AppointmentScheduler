@@ -39,7 +39,6 @@ public class Add_Customer_Controller implements Initializable {
         error_label.setOpacity(0);
         customerID_input.setText("--auto generated--");
         country_selection.getItems().addAll(Counties_Collections.getAllCountiesNames());
-
     }
 
     @FXML
@@ -49,7 +48,6 @@ public class Add_Customer_Controller implements Initializable {
         if(selectedCounty != null){
             division_selection.getItems().addAll(Divisions_Collections.getSelectedDivisionNamesByCountryID(selectedCounty));
         }
-
     }
 
     @FXML
@@ -110,7 +108,6 @@ public class Add_Customer_Controller implements Initializable {
             error_label.setOpacity(1);
             return false;
         }
-
     }
 
     private void collectInputsAndSendToDA() {

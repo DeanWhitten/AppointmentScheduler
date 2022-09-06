@@ -90,7 +90,6 @@ public class Update_Appointment_Controller implements Initializable {
         if(selectedCounty != null){
             division_selection.getItems().addAll(Divisions_Collections.getSelectedDivisionNamesByCountryID(selectedCounty));
         }
-
     }
 
     @FXML
@@ -110,7 +109,6 @@ public class Update_Appointment_Controller implements Initializable {
             error_label.setText("Please select appointment times.");
             error_label.setOpacity(1);
         }
-
     }
 
     private Boolean validateInput() {
@@ -118,7 +116,6 @@ public class Update_Appointment_Controller implements Initializable {
         LocalDate dateToAdd = date_selection.getValue();
         LocalDateTime start = LocalDateTime.of(dateToAdd, start_selection.getValue());
         LocalDateTime end = LocalDateTime.of(dateToAdd, end_selection.getValue());
-
 
         if(!customer_selection.getSelectionModel().isEmpty()){
             if(!contact_selection.getSelectionModel().isEmpty()){
@@ -197,8 +194,8 @@ public class Update_Appointment_Controller implements Initializable {
             error_label.setOpacity(1);
             return false;
         }
-
     }
+
     private Boolean checkTimes() {
         String customer = customer_selection.getSelectionModel().getSelectedItem();
         LocalDate date = date_selection.getValue();
@@ -209,7 +206,6 @@ public class Update_Appointment_Controller implements Initializable {
         return TimeOverlap_Error_Handler.checkForAppointmentOverlapByCustomer_Modify(start, end,
                 Customers_Collections.getCustomerIDByName(customer),
                 MainWindow_Controller.selectedAppointment.getId());
-
     }
 
     private void collectInputsAndSendToDA() {
