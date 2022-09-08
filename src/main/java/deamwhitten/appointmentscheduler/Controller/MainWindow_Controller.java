@@ -4,9 +4,8 @@ package deamwhitten.appointmentscheduler.Controller;
 import deamwhitten.appointmentscheduler.Model.Appointment;
 import deamwhitten.appointmentscheduler.Model.Customer;
 import deamwhitten.appointmentscheduler.Utils.Collections.Appointments_Collections;
-
 import deamwhitten.appointmentscheduler.Utils.Collections.Customers_Collections;
-
+import deamwhitten.appointmentscheduler.Utils.Collections.Reports_Collections;
 import deamwhitten.appointmentscheduler.Utils.CurrentSession_properties;
 import deamwhitten.appointmentscheduler.Utils.DataBase_Access.Appointments_DA;
 import deamwhitten.appointmentscheduler.Utils.DataBase_Access.Customers_DA;
@@ -82,6 +81,8 @@ public class MainWindow_Controller implements Initializable {
     private TableColumn<Customer,Integer> customer_divisionID_col;
     @FXML
     private Label customer_error_label;
+    @FXML
+    private Label numOfTypesByMonth_report_Label;
 
     public static Appointment selectedAppointment;
     public static Customer selectedCustomer;
@@ -89,6 +90,8 @@ public class MainWindow_Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         resetUI();
+        numOfTypesByMonth_report_Label.setText(Reports_Collections.getNumOfAppsPerMonthAndType());
+       
         try {
             user_msg_label.setText("Welcome, " + CurrentSession_properties.getUserName());
             loadTables();

@@ -257,9 +257,16 @@
                <content>
                   <Accordion prefHeight="700.0" prefWidth="1800.0">
                      <panes>
-                        <TitledPane animated="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="765.0" prefWidth="1800.0" text="Apointment Type Total by Month">
+                        <TitledPane animated="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="885.0" text="Apointment Totals by Month and Type">
                            <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="383.0" prefWidth="1798.0">
+                                 <children>
+                                    <Label fx:id="numOfTypesByMonth_report_Label" layoutX="14.0" layoutY="7.0" prefHeight="378.0" prefWidth="959.0" text="Label" wrapText="true">
+                                       <font>
+                                          <Font size="10.0" />
+                                       </font>
+                                    </Label>
+                                 </children></AnchorPane>
                            </content>
                         </TitledPane>
                         <TitledPane animated="false" text="Consultants' Schedules">
