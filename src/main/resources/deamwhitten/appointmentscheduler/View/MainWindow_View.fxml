@@ -269,9 +269,18 @@
                                  </children></AnchorPane>
                            </content>
                         </TitledPane>
-                        <TitledPane animated="false" text="Consultants' Schedules">
+                        <TitledPane animated="false" text="Contacts' Schedules">
                            <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <ComboBox fx:id="contactSchedule_selection" layoutX="61.0" layoutY="30.0" prefWidth="150.0" promptText="Select Contact" />
+                                    <Button fx:id="scheduleReport_btn" layoutX="237.0" layoutY="30.0" mnemonicParsing="false" onAction="#onScheduleReportClick" text="Get Schedule Report" />
+                                    <Label fx:id="contactSchedule_Results_label" layoutX="61.0" layoutY="69.0" prefHeight="310.0" prefWidth="897.0">
+                                       <font>
+                                          <Font size="8.0" />
+                                       </font>
+                                    </Label>
+                                 </children></AnchorPane>
                            </content>
                         </TitledPane>
                         <TitledPane animated="false" text="Appointments per Location">

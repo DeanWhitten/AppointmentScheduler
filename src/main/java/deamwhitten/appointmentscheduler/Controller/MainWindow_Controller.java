@@ -4,6 +4,7 @@ package deamwhitten.appointmentscheduler.Controller;
 import deamwhitten.appointmentscheduler.Model.Appointment;
 import deamwhitten.appointmentscheduler.Model.Customer;
 import deamwhitten.appointmentscheduler.Utils.Collections.Appointments_Collections;
+import deamwhitten.appointmentscheduler.Utils.Collections.Contacts_Collections;
 import deamwhitten.appointmentscheduler.Utils.Collections.Customers_Collections;
 import deamwhitten.appointmentscheduler.Utils.Collections.Reports_Collections;
 import deamwhitten.appointmentscheduler.Utils.CurrentSession_properties;
@@ -83,6 +84,10 @@ public class MainWindow_Controller implements Initializable {
     private Label customer_error_label;
     @FXML
     private Label numOfTypesByMonth_report_Label;
+    @FXML
+    private ComboBox<String> contactSchedule_selection;
+    @FXML
+    private Label contactSchedule_Results_label;
 
     public static Appointment selectedAppointment;
     public static Customer selectedCustomer;
@@ -96,6 +101,7 @@ public class MainWindow_Controller implements Initializable {
             user_msg_label.setText("Welcome, " + CurrentSession_properties.getUserName());
             loadTables();
             filterByCustomer_selection.getItems().addAll(observableArrayList(Customers_Collections.getAllCustomersNames()));
+            contactSchedule_selection.getItems().addAll(observableArrayList(Contacts_Collections.getAllContactNames()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -244,7 +250,16 @@ public class MainWindow_Controller implements Initializable {
         }
     }
 
-   //show login activity
+    @FXML
+    public void onScheduleReportClick(){
+        int contactSelected =  contactSchedule_selection.getSelectionModel().getSelectedIndex();
+
+        if(!contactSchedule_selection.getSelectionModel().isEmpty()){
+            contactSchedule_Results_label.setText(Reports_Collections.getContactScheduleByContactID_Report(contactSelected));
+        }
+
+
+    }
 
     //loads tables
     private void loadTables(){
