@@ -9,9 +9,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
+/**
+ * The Sign in data access.
+ */
 public abstract class SignIn_DA {
 
-    public static Boolean validate(String userName, String password) {
+	/**
+	 * Validate user credentials.
+	 *
+	 * @param userName the username inputted
+	 * @param password the password  inputted
+	 * @return boolean of whether it is valid credentials
+	 */
+	public static Boolean validate(String userName, String password) {
         try {
             String sqlQuery = "SELECT * FROM users ";
             PreparedStatement ps = JDBC.connection.prepareStatement(sqlQuery);

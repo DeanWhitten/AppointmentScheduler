@@ -5,26 +5,45 @@ import deamwhitten.appointmentscheduler.Model.Country;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class Counties_Collections {
-    //All countries
-    public static ObservableList<Country> allCountries = FXCollections.observableArrayList();
-    public static ObservableList<Country> getAllCountries(){
+/**
+ * The type Counties collections.
+ */
+public abstract class Counties_Collections {
+
+	/**
+	 * Get all countries observable list.
+	 *
+	 * @return the observable list
+	 */
+	public static ObservableList<Country> getAllCountries(){
+        ObservableList<Country> allCountries = FXCollections.observableArrayList();
         allCountries.clear();
         allCountries.addAll(Country_DA.getAllCountriesData());
         return allCountries;
     }
 
-    public static ObservableList<String> allCountiesNames = FXCollections.observableArrayList();
-    public static ObservableList<String> getAllCountiesNames(){
+	/**
+	 * Get all counties names observable list.
+	 *
+	 * @return the observable list
+	 */
+	public static ObservableList<String> getAllCountiesNames(){
+        ObservableList<String> allCountiesNames = FXCollections.observableArrayList();
         allCountiesNames.clear();
         getAllCountries();
-        for(Country country : allCountries){
+        for(Country country : getAllCountries()){
             allCountiesNames.add(country.getName());
         }
         return allCountiesNames;
     }
 
-    public static String findCountryNameById(int id){
+	/**
+	 * Find country name by id string.
+	 *
+	 * @param id the id
+	 * @return the string
+	 */
+	public static String findCountryNameById(int id){
       String countryName = null;
       getAllCountries();
       for (Country country : getAllCountries()){

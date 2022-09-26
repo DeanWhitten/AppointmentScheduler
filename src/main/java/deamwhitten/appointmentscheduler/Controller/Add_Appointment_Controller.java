@@ -14,6 +14,9 @@ import java.net.URL;
 import java.time.*;
 import java.util.ResourceBundle;
 
+/**
+ * Add appointment controller.
+ */
 public class Add_Appointment_Controller implements Initializable {
     @FXML
     private TextField appID_input;
@@ -38,8 +41,7 @@ public class Add_Appointment_Controller implements Initializable {
     @FXML
     private ComboBox<LocalTime> end_selection;
     @FXML
-   private Label error_label;
-
+    private Label error_label;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -63,29 +65,51 @@ public class Add_Appointment_Controller implements Initializable {
                 start_selection.getItems().add(startZDT.toLocalTime());
                 startZDT = startZDT.plusMinutes(30);
                 end_selection.getItems().add(startZDT.toLocalTime().plusHours(1));
-
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    @FXML
+	/**
+	 * On country selected.
+     * Clears division selection and makes sure that a country is selected by the user then if
+     * a country is selected, that county's respective divisions are loaded into the
+     * divisions ComboBox.
+	 *
+	 * @param event the event when the user selects a country
+	 */
+	@FXML
     public void onCountrySelected(ActionEvent event) {
         division_selection.getItems().clear();
         String selectedCounty = country_selection.getSelectionModel().getSelectedItem();
         if(selectedCounty != null){
             division_selection.getItems().addAll(Divisions_Collections.getSelectedDivisionNamesByCountryID(selectedCounty));
         }
-        
     }
 
-    @FXML
+	/**
+	 * On cancel click.
+	 * returns user back to the main screen.
+     *
+	 * @param event the event of user clicking cancel
+	 * @throws IOException the io exception thrown
+	 */
+	@FXML
     public void onCancelClick(ActionEvent event) throws IOException {
         Window_Handler.loadWindow("MainWindow_View","Appointment Scheduler", event);
     }
 
-    @FXML
+	/**
+	 * On schedule click.
+	 * checks to make sure there is a selected start and end time. After it validates the inputs
+     * and based on whether the inputs are valid or not, it will either show an error or send the
+     * data to be saved to the database and redirects user to the main screen.
+     *
+	 * @param event the event of the user clicking schedule
+	 * @throws Exception the exception
+	 */
+	@FXML
     public void onScheduleClick(ActionEvent event) throws Exception {
         if(start_selection.getSelectionModel().getSelectedItem() != null && end_selection.getSelectionModel().getSelectedItem() != null){
             Boolean isValidInput = validateInputs();
@@ -99,7 +123,15 @@ public class Add_Appointment_Controller implements Initializable {
         }
     }
 
-    public Boolean validateInputs() {
+	/**
+	 * Validate inputs boolean.
+	 * checks each input to see if its valid and meets business requirements. Is chained in order
+     * of how the form is laid out so that any invalid inputs are given errors in the order that
+     * they appear until they all pass validation.
+     *
+	 * @return the boolean
+	 */
+	public Boolean validateInputs() {
         Boolean timeOverLap= checkForOverlapTimes();
 
         LocalDate dateToAdd = date_selection.getValue();
@@ -182,9 +214,17 @@ public class Add_Appointment_Controller implements Initializable {
             error_label.setOpacity(1);
             return false;
         }
-
     }
 
+    /**
+     * Check for overlap times
+     * assigns needed parameters to variables to be sent to the TimeOverlap_Error_Handler and
+     * returns true or false based on if there is an overlap in time of already existing
+     * appointments for selected customer
+     *
+     * @return a boolean of whether there is an overlap in times for existing appointments for
+     * selected customer
+     */
     private Boolean checkForOverlapTimes() {
         String customer = customer_selection.getSelectionModel().getSelectedItem();
         LocalDate date = date_selection.getValue();
@@ -193,7 +233,12 @@ public class Add_Appointment_Controller implements Initializable {
         return TimeOverlap_Error_Handler.checkForAppointmentOverlapByCustomer_Add(start, end, Customers_Collections.getCustomerIDByName(customer), error_label);
     }
 
-
+    /**
+     * Collect Inputs and Send to DA
+     * Assigns valid inputs to local variables for easy readability then sends the data to the
+     * database using the writeNewAppointmentDataToDB method in Appointments_DA
+     *
+     */
     private void collectInputsAndSendToDA() {
         String customerName = customer_selection.getSelectionModel().getSelectedItem();
         String contact =contact_selection.getSelectionModel().getSelectedItem();
@@ -205,8 +250,8 @@ public class Add_Appointment_Controller implements Initializable {
         LocalDateTime start = LocalDateTime.of(dateToAdd, start_selection.getValue());
         LocalDateTime end = LocalDateTime.of(dateToAdd, end_selection.getValue());
 
-        Appointments_DA.writeNewAppointmentDataToDB( customerName, contact, type, title, description, location, start, end);
+        Appointments_DA.writeNewAppointmentDataToDB( customerName, contact, type, title,
+                description, location, start, end);
     }
-
 
 }

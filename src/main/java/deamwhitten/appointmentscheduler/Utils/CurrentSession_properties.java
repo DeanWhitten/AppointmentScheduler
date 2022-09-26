@@ -10,16 +10,30 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * The Current session properties.
+ */
 public class CurrentSession_properties {
     private static ObservableList<User> activeUser = FXCollections.observableArrayList();
 
-    public static void assignSessionUser(User userLoggedIn) {
+	/**
+	 * Assign session user.
+	 *
+	 * @param userLoggedIn the user logged in
+	 */
+	public static void assignSessionUser(User userLoggedIn) {
         activeUser.clear();
         activeUser.add(userLoggedIn);
 
     }
 
-    public static void logActivity(String userName, String loginResult) {
+	/**
+	 * Activity Logger
+	 *
+	 * @param userName    the username entered
+	 * @param loginResult the login result
+	 */
+	public static void logActivity(String userName, String loginResult) {
         try {
             File myObj = new File("login_activity.txt");
             if (myObj.createNewFile()) {
@@ -42,7 +56,12 @@ public class CurrentSession_properties {
         }
     }
 
-    public static String getUserName(){
+	/**
+	 * Get current logged-in user's name.
+	 *
+	 * @return a string of the user's name
+	 */
+	public static String getUserName(){
         String userName = null;
         for(User user : activeUser){
             userName = user.getUserName();
@@ -50,7 +69,12 @@ public class CurrentSession_properties {
         return userName;
     }
 
-    public static int getUserID(){
+	/**
+	 * Get logged in user's ID
+	 *
+	 * @return the int of the user's ID
+	 */
+	public static int getUserID(){
         int userID = 0;
         for(User user : activeUser){
             userID = user.getUserID();

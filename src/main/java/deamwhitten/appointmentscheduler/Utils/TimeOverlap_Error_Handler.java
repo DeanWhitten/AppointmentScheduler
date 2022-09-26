@@ -8,11 +8,21 @@ import java.time.LocalDateTime;
 import static deamwhitten.appointmentscheduler.Controller.Update_Appointment_Controller.error_label;
 import static deamwhitten.appointmentscheduler.Utils.Collections.Appointments_Collections.getAllAppointments;
 
-public class TimeOverlap_Error_Handler {
+/**
+ * The type Time overlap error handler.
+ */
+public abstract class TimeOverlap_Error_Handler {
 
 
-
-
+	/**
+	 * Check for appointment overlap of customer by selected start and end time for new appointment.
+	 *
+	 * @param Start       the starting time selected
+	 * @param End         the end time selected
+	 * @param customerID  the customer id
+	 * @param error_label the error label to write to if there is an overlap
+	 * @return the boolean telling whether there is an overlap or not
+	 */
 	public static Boolean checkForAppointmentOverlapByCustomer_Add(LocalDateTime Start,
 																   LocalDateTime End,
 																   int customerID, Label error_label) {
@@ -39,6 +49,13 @@ public class TimeOverlap_Error_Handler {
 		return false;
 	}
 
+	/**
+	 * Checks for appointment time overlap by customer when modifying appointments
+	 * @param Start       the starting time selected
+	 * @param End         the end time selected
+	 * @param customerID  the customer id
+	 * @return the boolean telling whether there is an overlap or not
+	 */
 	public static boolean checkForAppointmentOverlapByCustomer_Modify(LocalDateTime Start,
 																	  LocalDateTime End,
 																	  int customerID,

@@ -6,7 +6,7 @@ import deamwhitten.appointmentscheduler.Model.Customer;
 import deamwhitten.appointmentscheduler.Utils.Collections.Appointments_Collections;
 import deamwhitten.appointmentscheduler.Utils.Collections.Contacts_Collections;
 import deamwhitten.appointmentscheduler.Utils.Collections.Customers_Collections;
-import deamwhitten.appointmentscheduler.Utils.Collections.Reports_Collections;
+import deamwhitten.appointmentscheduler.Utils.Reports_Handler;
 import deamwhitten.appointmentscheduler.Utils.CurrentSession_properties;
 import deamwhitten.appointmentscheduler.Utils.DataBase_Access.Appointments_DA;
 import deamwhitten.appointmentscheduler.Utils.DataBase_Access.Customers_DA;
@@ -25,6 +25,9 @@ import java.util.ResourceBundle;
 import static deamwhitten.appointmentscheduler.Utils.Collections.Appointments_Collections.getAllAppointments;
 import static javafx.collections.FXCollections.observableArrayList;
 
+/**
+ * Main window controller.
+ */
 public class MainWindow_Controller implements Initializable {
     @FXML
     private Label user_msg_label;
@@ -88,15 +91,23 @@ public class MainWindow_Controller implements Initializable {
     private ComboBox<String> contactSchedule_selection;
     @FXML
     private Label contactSchedule_Results_label;
+    @FXML
+    private Label appPerLocation_Results_label;
 
-    public static Appointment selectedAppointment;
-    public static Customer selectedCustomer;
+	/**
+	 * The constant selectedAppointment that stores user selected appointment.
+	 */
+	public static Appointment selectedAppointment;
+	/**
+	 * The constant selectedCustomer that stores user selected appointment.
+	 */
+	public static Customer selectedCustomer;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         resetUI();
-        numOfTypesByMonth_report_Label.setText(Reports_Collections.getNumOfAppsPerMonthAndType());
-       
+        numOfTypesByMonth_report_Label.setText(Reports_Handler.getNumOfAppsPerMonthAndType());
+        appPerLocation_Results_label.setText(Reports_Handler.getNumOfCustomersPerLocation());
         try {
             user_msg_label.setText("Welcome, " + CurrentSession_properties.getUserName());
             loadTables();
@@ -106,12 +117,18 @@ public class MainWindow_Controller implements Initializable {
             throw new RuntimeException(e);
         }
     }
-    
-    //appointment radios filters - All, Month, Week
-    @FXML
+
+	/**
+	 * On appointment radio selection.
+	 * When a user selects a radio button on the appointment tab, the error UI messages are reset,
+	 * thee filtered customer selection is cleared then the appropriate appointments are loaded
+	 * based on radio button selection.
+	 */
+	@FXML
     public void onAppointmentRadioSelection() {
         resetUI();
         filterByCustomer_selection.getSelectionModel().clearSelection();
+
        if(all_radio.isSelected()){
           appointments_table.setItems(getAllAppointments());
        }
@@ -123,22 +140,38 @@ public class MainWindow_Controller implements Initializable {
        }
     }
 
-    //appointment customer filter
-    @FXML
+	/**
+	 * On filter by customer selected.
+	 * Filters appointments based on selected customer.
+	 */
+	@FXML
     public void onFilterByCustomerSelected() {
         resetUI();
         appointments_table.setItems(Appointments_Collections.getSelectedCustomerAppointments(filterByCustomer_selection.getValue()));
     }
 
-    //schedule appointment
-    @FXML
+	/**
+	 * On schedule appointment click.
+	 * Opens window that allows user to schedule an appointment.
+	 *
+	 * @param event the event of scheduled appointment click
+	 * @throws IOException the io exception
+	 */
+	@FXML
     public void onScheduleAppointmentClick(ActionEvent event) throws IOException {
         resetUI();
         Window_Handler.loadWindow("Add_Appointment_View", "Schedule Appointment", event);
     }
 
-    //update appointment
-    @FXML
+	/**
+	 * On update appointment click.
+	 * Checks to make sure an appointment is selected then if one is selected sends the user to
+	 * the update window otherwise if an appointment is not selected an error is shown.
+	 *
+	 * @param event the event of the user clicking update appointment
+	 * @throws IOException the io exception
+	 */
+	@FXML
     public void onUpdateAppointmentClick(ActionEvent event) throws IOException {
         resetUI();
         selectedAppointment =appointments_table.getSelectionModel().getSelectedItem();
@@ -156,8 +189,13 @@ public class MainWindow_Controller implements Initializable {
            }
     }
 
-    //cancel appointment
-    @FXML
+	/**
+	 * On cancel appointment click.
+	 * Resets the UI error messages, then tries to check if an appointment is selected to cancel.
+	 * If there isn't a selected appointment an error message is shown. If an appointment is
+	 * selected then an alert is given to the user to confirm the cancellation.
+	 */
+	@FXML
     public void onCancelAppointmentClick(){
         resetUI();
         selectedAppointment =appointments_table.getSelectionModel().getSelectedItem();
@@ -189,15 +227,30 @@ public class MainWindow_Controller implements Initializable {
         }
     }
 
-    //add customer
-    @FXML
+	/**
+	 * On add new customer click.
+	 *  Opens the window to create a new customer
+	 *
+	 * @param event the event of the user clicking add.
+	 *
+	 * @throws IOException the io exception
+	 */
+	@FXML
     public void onAddNewCustomerClick(ActionEvent event) throws IOException {
         resetUI();
         Window_Handler.loadWindow("Add_Customer_View", "Add New Customer", event);
     }
 
-    //update customer
-    @FXML
+	/**
+	 * On update customer click.
+	 * Resets the UI error messages, then tries to check if a customer is selected. If a customer
+	 * is not selected then an error message is displayed otherwise the user is redirected to a
+	 * window to update customer data.
+	 *
+	 * @param event the event of user clicking update
+	 * @throws IOException the io exception
+	 */
+	@FXML
     public void onUpdateCustomerClick(ActionEvent event) throws IOException {
         resetUI();
         selectedCustomer = customers_table.getSelectionModel().getSelectedItem();
@@ -215,8 +268,13 @@ public class MainWindow_Controller implements Initializable {
         }
     }
 
-    //delete customer
-    @FXML
+	/**
+	 * On delete customer click.
+	 * Resets the UI error messages, then tries to check if a customer is selected to delete.
+	 * If there isn't a selected customer an error message is shown. If a customer is
+	 * selected then an alert is given to the user to confirm the deletion.
+	 */
+	@FXML
     public void onDeleteCustomerClick(){
         resetUI();
         selectedCustomer = customers_table.getSelectionModel().getSelectedItem();
@@ -250,18 +308,25 @@ public class MainWindow_Controller implements Initializable {
         }
     }
 
-    @FXML
+	/**
+	 * On schedule report click.
+	 * Checks that a contact is selected, if it's not empty a report of the contact's appointment
+	 * schedule is displayed
+	 */
+	@FXML
     public void onScheduleReportClick(){
-        int contactSelected =  contactSchedule_selection.getSelectionModel().getSelectedIndex();
+        String contactSelected =  contactSchedule_selection.getSelectionModel().getSelectedItem();
 
         if(!contactSchedule_selection.getSelectionModel().isEmpty()){
-            contactSchedule_Results_label.setText(Reports_Collections.getContactScheduleByContactID_Report(contactSelected));
+            contactSchedule_Results_label.setText(Reports_Handler.getContactScheduleByContactID_Report(contactSelected));
         }
-
-
     }
 
-    //loads tables
+	/**
+	 *Table Loader
+	 * Sets up the cell value factories and sets items to the tables for the tables on the
+	 * customers and appointments tab.
+	 */
     private void loadTables(){
         //Appointments Table
         app_appID_col.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -275,7 +340,6 @@ public class MainWindow_Controller implements Initializable {
         app_end_col.setCellValueFactory(new PropertyValueFactory<>("end"));
         app_userID_col.setCellValueFactory(new PropertyValueFactory<>("UserId"));
 
-
         //Customers Table
         customer_customerID_col.setCellValueFactory(new PropertyValueFactory<>("id"));
         customer_customerName_col.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -283,9 +347,6 @@ public class MainWindow_Controller implements Initializable {
         customer_address_col.setCellValueFactory(new PropertyValueFactory<>("address"));
         customer_postal_col.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
         customer_divisionID_col.setCellValueFactory(new PropertyValueFactory<>("divisionID"));
-
-        //Report tables- 3
-
         try {
             appointments_table.setItems(getAllAppointments());
             customers_table.setItems(Customers_Collections.getAllCustomers());
@@ -294,10 +355,12 @@ public class MainWindow_Controller implements Initializable {
         }
     }
 
+	/**
+	 * UI message resets
+	 */
     private  void resetUI(){
          app_delete_msg_label.setOpacity(0);
          app_error_label.setOpacity(0);
-
          customer_delete_msg_label.setOpacity(0);
          customer_error_label.setOpacity(0);
     }

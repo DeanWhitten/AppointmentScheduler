@@ -15,11 +15,17 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 
+/**
+ * Appointments data access.
+ */
 public abstract class Appointments_DA {
 
-
-    //READ- ALL- Appointments
-    public static ObservableList<Appointment> getAllAppointmentsData() {
+	/**
+	 * Gets all appointments data.
+	 *
+	 * @return all appointments data in a list
+	 */
+	public static ObservableList<Appointment> getAllAppointmentsData() {
 
         ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
         try {
@@ -51,7 +57,19 @@ public abstract class Appointments_DA {
         return allAppointments;
     }
 
-    public static void writeNewAppointmentDataToDB(String customerName, String contact,
+	/**
+	 * Write new appointment data to db.
+	 *
+	 * @param customerName the customer name
+	 * @param contact      the contact
+	 * @param type         the type
+	 * @param title        the title
+	 * @param description  the description
+	 * @param location     the location
+	 * @param start        the start
+	 * @param end          the end
+	 */
+	public static void writeNewAppointmentDataToDB(String customerName, String contact,
                                                    String type, String title, String description,
                                                    String location, LocalDateTime start, LocalDateTime end) {
         try {
@@ -81,7 +99,21 @@ public abstract class Appointments_DA {
         }
     }
 
-    public static void updateAppointmentDataToDB(int appointmentID, String title,
+	/**
+	 * Update appointment data to db.
+	 *
+	 * @param appointmentID the appointment id
+	 * @param title         the title
+	 * @param description   the description
+	 * @param location      the location
+	 * @param type          the type
+	 * @param start         the start
+	 * @param end           the end
+	 * @param customerID    the customer id
+	 * @param userID        the user id
+	 * @param contactID     the contact id
+	 */
+	public static void updateAppointmentDataToDB(int appointmentID, String title,
                                                  String description, String location, String type,
                                                  LocalDateTime start, LocalDateTime end,
                                                  int customerID, int userID, int contactID) {
@@ -111,7 +143,12 @@ public abstract class Appointments_DA {
         }
     }
 
-    public static void deleteAppointment(int appointmentID) {
+	/**
+	 * Delete appointment.
+	 *
+	 * @param appointmentID the id of the appointment to be deleted
+	 */
+	public static void deleteAppointment(int appointmentID) {
         try {
             String sql = "DELETE FROM appointments WHERE Appointment_ID = ?";
             PreparedStatement ps = JDBC.connection.prepareStatement(sql);

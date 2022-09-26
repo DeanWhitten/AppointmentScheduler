@@ -2,6 +2,9 @@ package deamwhitten.appointmentscheduler.Model;
 
 import java.time.LocalDateTime;
 
+/**
+ * Appointment Class Model.
+ */
 public class Appointment {
     private int id;
     private String title;
@@ -14,11 +17,21 @@ public class Appointment {
     private int userId;
     private int contactId;
 
-    /**
-     * Appointments constructor.
-     *
-     * */
-    public Appointment(int appointmentID, String appointmentTitle, String appointmentDescription,
+	/**
+	 * Instantiates a new Appointment.
+	 *
+	 * @param appointmentID          the appointment id
+	 * @param appointmentTitle       the appointment title
+	 * @param appointmentDescription the appointment description
+	 * @param appointmentLocation    the appointment location
+	 * @param appointmentType        the appointment type
+	 * @param start                  the start time of the appointment
+	 * @param end                    the end time of the appointment
+	 * @param customerId             the customer id for the appointment
+	 * @param userId                 the user id for the appointment
+	 * @param contactId              the contact id for the appointment
+	 */
+	public Appointment(int appointmentID, String appointmentTitle, String appointmentDescription,
                        String appointmentLocation, String appointmentType, LocalDateTime start, LocalDateTime end, int customerId,
                        int userId, int contactId) {
 
@@ -34,86 +47,183 @@ public class Appointment {
         this.setContactId(contactId);
     }
 
-    /**
-     * Fields for the appointments class.
-     * */
-    public int getId() {
+	/**
+	 * Gets id.
+	 *
+	 * @return the id
+	 */
+	public int getId() {
         return id;
     }
 
-    public void setId(int id) {
+	/**
+	 * Sets id.
+	 *
+	 * @param id the id
+	 */
+	public void setId(int id) {
         this.id = id;
     }
 
-    public String getTitle() {
+	/**
+	 * Gets title.
+	 *
+	 * @return the title
+	 */
+	public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+	/**
+	 * Sets title.
+	 *
+	 * @param title the title
+	 */
+	public void setTitle(String title) {
         this.title = title;
     }
 
-    public String getDescription() {
+	/**
+	 * Gets description.
+	 *
+	 * @return the description
+	 */
+	public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+	/**
+	 * Sets description.
+	 *
+	 * @param description the description
+	 */
+	public void setDescription(String description) {
         this.description = description;
     }
 
-    public String getLocation() {
+	/**
+	 * Gets location.
+	 *
+	 * @return the location
+	 */
+	public String getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+	/**
+	 * Sets location.
+	 *
+	 * @param location the location
+	 */
+	public void setLocation(String location) {
         this.location = location;
     }
 
-    public String getType() {
+	/**
+	 * Gets type.
+	 *
+	 * @return the type
+	 */
+	public String getType() {
         return type;
     }
 
-    public void setType(String type) {
+	/**
+	 * Sets type.
+	 *
+	 * @param type the type
+	 */
+	public void setType(String type) {
         this.type = type;
     }
 
-    public LocalDateTime getStart() {
+	/**
+	 * Gets start.
+	 *
+	 * @return the start
+	 */
+	public LocalDateTime getStart() {
         return start;
     }
 
-    public void setStart(LocalDateTime start) {
+	/**
+	 * Sets start.
+	 *
+	 * @param start the start
+	 */
+	public void setStart(LocalDateTime start) {
         this.start = start;
     }
 
-    public LocalDateTime getEnd() {
+	/**
+	 * Gets end.
+	 *
+	 * @return the end
+	 */
+	public LocalDateTime getEnd() {
         return end;
     }
 
-    public void setEnd(LocalDateTime end) {
+	/**
+	 * Sets end.
+	 *
+	 * @param end the end
+	 */
+	public void setEnd(LocalDateTime end) {
         this.end = end;
     }
 
-    public int getCustomerId() {
+	/**
+	 * Gets customer id.
+	 *
+	 * @return the customer id
+	 */
+	public int getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(int customerId) {
+	/**
+	 * Sets customer id.
+	 *
+	 * @param customerId the customer id
+	 */
+	public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
 
-    public int getUserId() {
+	/**
+	 * Gets user id.
+	 *
+	 * @return the user id
+	 */
+	public int getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+	/**
+	 * Sets user id.
+	 *
+	 * @param userId the user id
+	 */
+	public void setUserId(int userId) {
         this.userId = userId;
     }
 
-    public int getContactId() {
+	/**
+	 * Gets contact id.
+	 *
+	 * @return the contact id
+	 */
+	public int getContactId() {
         return contactId;
     }
 
-    public void setContactId(int contactId) {
+	/**
+	 * Sets contact id.
+	 *
+	 * @param contactId the contact id
+	 */
+	public void setContactId(int contactId) {
         this.contactId = contactId;
     }
 }

@@ -9,9 +9,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Country_DA {
+/**
+ * The Country data access.
+ */
+public abstract class Country_DA {
 
-    public static ObservableList<Country> getAllCountriesData() {
+	/**
+	 * Gets all countries data.
+	 *
+	 * @return all countries data in a list
+	 */
+	public static ObservableList<Country> getAllCountriesData() {
         ObservableList<Country> allCountries = FXCollections.observableArrayList();
         try {
             String sql = "SELECT * FROM countries";

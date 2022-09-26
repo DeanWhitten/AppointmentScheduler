@@ -1,7 +1,8 @@
 package deamwhitten.appointmentscheduler.Model;
 
-import java.util.Calendar;
-
+/**
+ * Customer Class Model.
+ */
 public class Customer {
     private int id;
     private String name;
@@ -10,7 +11,17 @@ public class Customer {
     private String phone;
     private int divisionID;
 
-    public Customer(int id, String name, String address, String postalCode, String phone, int divisionID){
+	/**
+	 * Instantiates a new Customer.
+	 *
+	 * @param id         the id of the customer
+	 * @param name       the name of the customer
+	 * @param address    the address of the customer
+	 * @param postalCode the postal code of the customer
+	 * @param phone      the phone number of the customer
+	 * @param divisionID the division id of the customer's address
+	 */
+	public Customer(int id, String name, String address, String postalCode, String phone, int divisionID){
         this.setId(id);
         this.setName(name);
         this.setAddress(address);
@@ -19,51 +30,111 @@ public class Customer {
         this.setDivisionID(divisionID);
     }
 
-    public int getId() {
+	/**
+	 * Gets id.
+	 *
+	 * @return the id
+	 */
+	public int getId() {
         return id;
     }
 
-    public void setId(int id) {
+	/**
+	 * Sets id.
+	 *
+	 * @param id the id
+	 */
+	public void setId(int id) {
         this.id = id;
     }
 
-    public String getName() {
+	/**
+	 * Gets name.
+	 *
+	 * @return the name
+	 */
+	public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+	/**
+	 * Sets name.
+	 *
+	 * @param name the name
+	 */
+	public void setName(String name) {
         this.name = name;
     }
 
-    public String getAddress() {
+	/**
+	 * Gets address.
+	 *
+	 * @return the address
+	 */
+	public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+	/**
+	 * Sets address.
+	 *
+	 * @param address the address
+	 */
+	public void setAddress(String address) {
         this.address = address;
     }
 
-    public String getPostalCode() {
+	/**
+	 * Gets postal code.
+	 *
+	 * @return the postal code
+	 */
+	public String getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode(String postalCode) {
+	/**
+	 * Sets postal code.
+	 *
+	 * @param postalCode the postal code
+	 */
+	public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 
-    public String getPhone() {
+	/**
+	 * Gets phone.
+	 *
+	 * @return the phone
+	 */
+	public String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
+	/**
+	 * Sets phone.
+	 *
+	 * @param phone the phone
+	 */
+	public void setPhone(String phone) {
         this.phone = phone;
     }
 
-    public int getDivisionID() {
+	/**
+	 * Gets division id.
+	 *
+	 * @return the division id
+	 */
+	public int getDivisionID() {
         return divisionID;
     }
 
-    public void setDivisionID(int divisionID) {
+	/**
+	 * Sets division id.
+	 *
+	 * @param divisionID the division id
+	 */
+	public void setDivisionID(int divisionID) {
         this.divisionID = divisionID;
     }
 }

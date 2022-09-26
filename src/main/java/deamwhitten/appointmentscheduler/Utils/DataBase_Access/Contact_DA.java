@@ -9,9 +9,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Contact_DA {
+/**
+ * Contact data access.
+ */
+public abstract class Contact_DA {
 
-    public static ObservableList<Contact> getAllContactsData() {
+	/**
+	 * Gets all contacts data.
+	 *
+	 * @return all contacts data in a list
+	 */
+	public static ObservableList<Contact> getAllContactsData() {
         ObservableList<Contact> allContacts = FXCollections.observableArrayList();
         try {
             String sql = "SELECT * FROM contacts";

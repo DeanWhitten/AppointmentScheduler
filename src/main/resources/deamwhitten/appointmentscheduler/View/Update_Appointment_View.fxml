@@ -62,6 +62,6 @@
             <Font size="36.0" />
          </font>
       </Label>
-      <Label fx:id="error_label" alignment="CENTER" contentDisplay="CENTER" layoutX="32.0" layoutY="357.0" prefHeight="17.0" prefWidth="737.0" text="Error msg Label" textAlignment="CENTER" textFill="RED" />
+      <Label fx:id="error_label" alignment="CENTER" contentDisplay="CENTER" layoutX="32.0" layoutY="357.0" prefHeight="17.0" prefWidth="737.0" textAlignment="CENTER" textFill="RED" />
    </children>
 </AnchorPane>

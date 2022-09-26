@@ -15,10 +15,17 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 
-public class Customers_DA {
+/**
+ * Customers data access.
+ */
+public abstract class Customers_DA {
 
-    //READ- ALL- Customers
-    public static ObservableList<Customer> getAllCustomersData() {
+	/**
+	 * Gets all customers data.
+	 *
+	 * @return all customers data as a list
+	 */
+	public static ObservableList<Customer> getAllCustomersData() {
         ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
         try {
             String sql = "SELECT * FROM customers";
@@ -42,7 +49,16 @@ public class Customers_DA {
         return allCustomers;
     }
 
-    public static void writeNewCustomerDataToDB(String customerName, String address,
+	/**
+	 * Write new customer data to db.
+	 *
+	 * @param customerName the customer name
+	 * @param address      the address
+	 * @param postal       the postal
+	 * @param phone        the phone
+	 * @param divisionID   the division id
+	 */
+	public static void writeNewCustomerDataToDB(String customerName, String address,
                                                 String postal, String phone, int divisionID) {
         try {
             String sql = "INSERT INTO customers " +
@@ -68,7 +84,17 @@ public class Customers_DA {
         }
     }
 
-    public static void updateCustomerDataToDB(int customerID, String name, String address,
+	/**
+	 * Update customer data to db.
+	 *
+	 * @param customerID the customer id
+	 * @param name       the name
+	 * @param address    the address
+	 * @param postal     the postal
+	 * @param phone      the phone
+	 * @param divisionID the division id
+	 */
+	public static void updateCustomerDataToDB(int customerID, String name, String address,
                                               String postal, String phone, int divisionID) {
         try {
             String sql = "UPDATE customers " +
@@ -93,7 +119,12 @@ public class Customers_DA {
         }
     }
 
-    public static void deleteCustomer(int customerID) {
+	/**
+	 * Delete customer.
+	 *
+	 * @param customerID the id of the customer to be deleted
+	 */
+	public static void deleteCustomer(int customerID) {
         try {
             for(Appointment app : Appointments_Collections.getAllAppointments()){
                 if(app.getCustomerId() == customerID){

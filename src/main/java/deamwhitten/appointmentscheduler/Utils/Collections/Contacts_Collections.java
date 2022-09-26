@@ -5,30 +5,48 @@ import deamwhitten.appointmentscheduler.Model.Contact;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class Contacts_Collections {
-    //All contacts
-    public static ObservableList<Contact> allContacts = FXCollections.observableArrayList();
-    public static ObservableList<Contact> getAllContacts(){
+/**
+ * The type Contacts collections.
+ */
+public abstract class Contacts_Collections {
+
+	/**
+	 * Get all contacts observable list.
+	 *
+	 * @return the observable list
+	 */
+	public static ObservableList<Contact> getAllContacts(){
+        ObservableList<Contact> allContacts = FXCollections.observableArrayList();
         allContacts.clear();
         allContacts.addAll(Contact_DA.getAllContactsData());
         return allContacts;
     }
 
-    //All contact names
-    public static ObservableList<String> allContactNames = FXCollections.observableArrayList();
-    public static ObservableList<String> getAllContactNames(){
+	/**
+	 * Get all contact names observable list.
+	 *
+	 * @return the observable list
+	 */
+	public static ObservableList<String> getAllContactNames(){
+        ObservableList<String> allContactNames = FXCollections.observableArrayList();
         allContactNames.clear();
         getAllContacts();
-        for (Contact contact: allContacts){
+        for (Contact contact: getAllContacts()){
             allContactNames.add(contact.getName());
         }
         return allContactNames;
     }
 
-    public static int getContactIdByName(String contact) {
+	/**
+	 * Gets contact id by name.
+	 *
+	 * @param contact the contact
+	 * @return the contact id by name
+	 */
+	public static int getContactIdByName(String contact) {
         getAllContacts();
         int id = 0;
-        for(Contact c : allContacts){
+        for(Contact c : getAllContacts()){
             if(c.getName().equals(contact)){
                 id = c.getId();
             }

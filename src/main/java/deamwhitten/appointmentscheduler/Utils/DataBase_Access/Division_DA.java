@@ -9,9 +9,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Division_DA {
+/**
+ * The Division data access.
+ */
+public abstract class Division_DA {
 
-    public static ObservableList<Division> getAllDivisionsData() {
+	/**
+	 * Gets all divisions data.
+	 *
+	 * @return all divisions data as a list
+	 */
+	public static ObservableList<Division> getAllDivisionsData() {
         ObservableList<Division> allDivisions = FXCollections.observableArrayList();
         try {
             String sql = "SELECT * FROM first_level_divisions";

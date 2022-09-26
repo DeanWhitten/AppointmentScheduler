@@ -5,30 +5,48 @@ import deamwhitten.appointmentscheduler.Model.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class Customers_Collections {
-    //All Customers
-    public static ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
-    public static ObservableList<Customer> getAllCustomers() {
+/**
+ * The type Customers collections.
+ */
+public abstract class Customers_Collections {
+
+	/**
+	 * Gets all customers.
+	 *
+	 * @return the all customers
+	 */
+	public static ObservableList<Customer> getAllCustomers() {
+        ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
         allCustomers.clear();
         allCustomers.addAll(Customers_DA.getAllCustomersData());
         return allCustomers;
     }
 
-    public static ObservableList<String> allCustomersNames = FXCollections.observableArrayList();
-    public static ObservableList<String> getAllCustomersNames() {
+	/**
+	 * Gets all customers names.
+	 *
+	 * @return the all customers names
+	 */
+	public static ObservableList<String> getAllCustomersNames() {
+        ObservableList<String> allCustomersNames = FXCollections.observableArrayList();
         allCustomersNames.clear();
         getAllCustomers();
-        for(Customer customer: allCustomers){
+        for(Customer customer: getAllCustomers()){
             allCustomersNames.add(customer.getName());
         }
-
         return allCustomersNames;
     }
 
-    public static int getCustomerIDByName(String selectedCustomerName) {
+	/**
+	 * Gets customer id by name.
+	 *
+	 * @param selectedCustomerName the selected customer name
+	 * @return the customer id by name
+	 */
+	public static int getCustomerIDByName(String selectedCustomerName) {
         getAllCustomers();
         int customerID = 0;
-        for (Customer customer: allCustomers){
+        for (Customer customer: getAllCustomers()){
             if(customer.getName().equals(selectedCustomerName)){
                  customerID = customer.getId();
             }

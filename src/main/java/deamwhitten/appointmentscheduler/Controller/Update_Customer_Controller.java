@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Update customer controller.
+ */
 public class Update_Customer_Controller implements Initializable {
     @FXML
     private TextField customerID_input;
@@ -41,7 +44,7 @@ public class Update_Customer_Controller implements Initializable {
         String divisionName =
                 Divisions_Collections.findDivisionNameById(selectedCustomer.getDivisionID());
         int countryID =
-                Divisions_Collections.findDivionCountryIdById(selectedCustomer.getDivisionID());
+                Divisions_Collections.findDivisionCountryIdById(selectedCustomer.getDivisionID());
 
         customerID_input.setText(String.valueOf(selectedCustomer.getId()));
         name_input.setText(selectedCustomer.getName());
@@ -50,10 +53,18 @@ public class Update_Customer_Controller implements Initializable {
         postalCode_input.setText(selectedCustomer.getPostalCode());
         country_selection.getSelectionModel().select(Counties_Collections.findCountryNameById(countryID));
         division_selection.getSelectionModel().select(divisionName);
-
         country_selection.setItems(Counties_Collections.getAllCountiesNames());
     }
-    @FXML
+
+    /**
+     * On country selected.
+     * Clears division selection and makes sure that a country is selected by the user then if
+     * a country is selected, that county's respective divisions are loaded into the
+     * divisions ComboBox.
+     *
+     * @param event the event when the user selects a country
+     */
+	@FXML
     public void onCountrySelected(ActionEvent event) {
         division_selection.getSelectionModel().clearSelection();
         division_selection.requestFocus();
@@ -61,10 +72,17 @@ public class Update_Customer_Controller implements Initializable {
         if(selectedCounty != null){
             division_selection.getItems().addAll(Divisions_Collections.getSelectedDivisionNamesByCountryID(selectedCounty));
         }
-
     }
-    
-    @FXML
+
+    /**
+     * On  update customer click.
+     * validates the inputs and based on whether the inputs are valid or not, it will either show
+     * an error or send the data to be saved to the database and redirects user to the main screen.
+     *
+     * @param event the event of update being clicked
+     * @throws IOException the io exception
+     */
+	@FXML
     public void onUpdateCustomerClick(ActionEvent event) throws IOException {
         Boolean isValidInput = validateInput();
         if(isValidInput){
@@ -73,11 +91,26 @@ public class Update_Customer_Controller implements Initializable {
         }
     }
 
-    @FXML
+    /**
+     * On cancel update customer click.
+     * returns user back to the main screen
+     *
+     * @param event the event of the user clicking cancel
+     * @throws IOException the io exception
+	 */
+	@FXML
     public void  onCancelUpdateCustomerClick(ActionEvent event) throws IOException {
         Window_Handler.loadWindow("MainWindow_View","Appointment Scheduler", event);
     }
 
+    /**
+     * Validate inputs boolean.
+     * checks each input to see if its valid and meets business requirements. Is chained in order
+     * of how the form is laid out so that any invalid inputs are given errors in the order that
+     * they appear until they all pass validation.
+     *
+     * @return the boolean
+     */
     private Boolean validateInput() {
         if(!name_input.getText().isEmpty()){
             if(!phoneNumber_input.getText().isEmpty()){
@@ -124,6 +157,12 @@ public class Update_Customer_Controller implements Initializable {
         }
     }
 
+    /**
+     * Collect Inputs and Send to DA
+     * Assigns valid inputs to local variables for easy readability then sends the data to the
+     * database using the updateCustomerDataToDB method in Customers_DA
+     *
+     */
     private void collectInputsAndSendToDA() {
         int customerID = Integer.parseInt(customerID_input.getText());
         String name = name_input.getText();

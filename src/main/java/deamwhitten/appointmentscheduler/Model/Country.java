@@ -1,27 +1,56 @@
 package deamwhitten.appointmentscheduler.Model;
 
+/**
+ * Country Class Model.
+ */
 public class Country {
     private  int id;
     private String name;
 
-    public Country(int id, String name){
+	/**
+	 * Instantiates a new Country.
+	 *
+	 * @param id   the id of the country
+	 * @param name the name of the country
+	 */
+	public Country(int id, String name){
         this.setId(id);
         this.setName(name);
     }
 
-    public int getId() {
+	/**
+	 * Gets id.
+	 *
+	 * @return the id
+	 */
+	public int getId() {
         return id;
     }
 
-    public void setId(int id) {
+	/**
+	 * Sets id.
+	 *
+	 * @param id the id
+	 */
+	public void setId(int id) {
         this.id = id;
     }
 
-    public String getName() {
+	/**
+	 * Gets name.
+	 *
+	 * @return the name
+	 */
+	public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+	/**
+	 * Sets name.
+	 *
+	 * @param name the name
+	 */
+	public void setName(String name) {
         this.name = name;
     }
 }

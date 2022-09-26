@@ -20,6 +20,9 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Sign in controller.
+ */
 public class SignIn_Controller implements Initializable {
     @FXML
     private Label title_label;
@@ -38,7 +41,19 @@ public class SignIn_Controller implements Initializable {
     @FXML
     private Label location_label;
 
-    @FXML
+	/**
+	 * On sign in click.
+	 * Checks if the username and password fields are filled in then checks if the inputs match
+     * valid credentials in the database. If the inputs match then the user data is logged for
+     * the session and the user is taken to the main window if not then a UI error is displayed
+     * prompting the user to check their inputs. Activities are also logged regardless of the
+     * validity of the inputs. Once the user successfully logs in appointments are checked to see
+     * if the user has any appointments coming up in the next 15 minutes.
+     *
+	 * @param event the event of clicking sign in
+	 * @throws IOException the io exception
+	 */
+	@FXML
     public void onSignInClick(ActionEvent event) throws IOException{
         ResourceBundle user_language;
         Locale current = get_locale();
@@ -61,9 +76,14 @@ public class SignIn_Controller implements Initializable {
            error_label.setText(user_language.getString("MissingInputs"));
            error_label.setOpacity(1);
         }
-
     }
 
+    /**
+     * Checks for upcoming appointments for user logged in.
+     * An alert message is displayed showing whether there is an upcoming appointment in the
+     * next 15 minutes for the user or not. A lambda is used to find if an appointment is within
+     * the next 15 minutes.
+     */
     private void checkForUpcomingApp() {
         ObservableList<Appointment> AppList = FXCollections.observableArrayList(Appointments_Collections.getAllAppointments());
 
@@ -110,9 +130,14 @@ public class SignIn_Controller implements Initializable {
         location_label.setText(locationText + " " + Locale.getDefault().getDisplayCountry() +"\t" +
                 "\t"+ languageText + " " + Locale.getDefault().getDisplayLanguage());
     }
-    public static Locale get_locale()
+
+	/**
+	 * Gets locale data.
+	 *
+	 * @return the locale data form the users pc
+	 */
+	public static Locale get_locale()
     {
-        System.out.println("local Default: " + Locale.getDefault());
         return Locale.getDefault();
     }
 }
