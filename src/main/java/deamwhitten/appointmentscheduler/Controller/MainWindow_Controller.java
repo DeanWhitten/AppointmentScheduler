@@ -29,68 +29,161 @@ import static javafx.collections.FXCollections.observableArrayList;
  * Main window controller.
  */
 public class MainWindow_Controller implements Initializable {
-    @FXML
+	/**
+	 * Label to display message to user
+	 */
+	@FXML
     private Label user_msg_label;
+	/**
+	 * Label to display message in when an appointment is canceled successfully
+	 */
     @FXML
     private  Label app_delete_msg_label;
+	/**
+	 * Table view for displaying appointments in
+	 */
     @FXML
     private TableView<Appointment> appointments_table;
+	/**
+	 * Appointments Table column for appointment ID
+	 */
     @FXML
     private TableColumn<Appointment, Integer> app_appID_col;
+	/**
+	 * Appointments Table column for customer ID
+	 */
     @FXML
     private TableColumn<Appointment, Integer> app_customerID_col;
+	/**
+	 * Appointments Table column for appointment contact
+	 */
     @FXML
     private TableColumn<Appointment, String> app_contact_col;
+	/**
+	 * Appointments Table column for appointment type
+	 */
     @FXML
     private TableColumn<Appointment, String> app_type_col;
+	/**
+	 * Appointments Table column appointment title
+	 */
     @FXML
     private TableColumn<Appointment, String> app_title_col;
+	/**
+	 * Appointments Table column for appointment description
+	 */
     @FXML
     private TableColumn<Appointment, String> app_description_col;
+	/**
+	 * Appointments Table column for appointment location
+	 */
     @FXML
     private TableColumn<Appointment, String> app_location_col;
+	/**
+	 * Appointments Table column for appointment start time
+	 */
     @FXML
     private TableColumn<Appointment, String> app_start_col;
+	/**
+	 * Appointments Table column for appointment end time
+	 */
     @FXML
     private TableColumn<Appointment, String> app_end_col;
+	/**
+	 * Appointments Table column for appointment user ID
+	 */
     @FXML
     private TableColumn<Appointment, String> app_userID_col;
+	/**
+	 * Appointments radio button for all appointments
+	 */
     @FXML
     private RadioButton all_radio;
+	/**
+	 * Appointments radio button for appointments of this month
+	 */
     @FXML
     private RadioButton month_radio;
+	/**
+	 * Appointments radio button for appointments of this week
+	 */
     @FXML
     private RadioButton week_radio;
+	/**
+	 * ComboBox for selecting a customer to filter appointments in the appointments' table by
+	 */
     @FXML
     private ComboBox<String> filterByCustomer_selection;
+	/**
+	 * Error Label for showing errors on the appointments tab
+	 */
     @FXML
     private Label app_error_label;
 
 
+	/**
+	 * Table View for displaying customers in
+	 */
     @FXML
     private TableView<Customer> customers_table;
+	/**
+	 * Label to display message in when a customer is deleted successfully
+	 */
     @FXML
     private Label customer_delete_msg_label;
+	/**
+	 * Customer table column for customer ID
+	 */
     @FXML
     private TableColumn<Customer,Integer> customer_customerID_col;
+	/**
+	 * Customer table column for customer name
+	 */
     @FXML
     private TableColumn<Customer,String> customer_customerName_col;
+	/**
+	 * Customer table column for customer phone number
+	 */
     @FXML
     private TableColumn<Customer,String> customer_phoneNum_col  ;
+	/**
+	 * Customer table column for customer address
+	 */
     @FXML
     private TableColumn<Customer,String> customer_address_col ;
+	/**
+	 * Customer table column for customer postal code
+	 */
     @FXML
     private TableColumn<Customer,String> customer_postal_col ;
+	/**
+	 * Customer table column for customer division ID
+	 */
     @FXML
     private TableColumn<Customer,Integer> customer_divisionID_col;
-    @FXML
+	/**
+	 * Error label for displaying error messages on the customer's tab
+	 */
+	@FXML
     private Label customer_error_label;
+	/**
+	 * Label for inserting the number of appointments by types and month report data into
+	 */
     @FXML
     private Label numOfTypesByMonth_report_Label;
-    @FXML
+	/**
+	 * ComboBox for selecting the contact to generate a schedule report for
+	 */
+	@FXML
     private ComboBox<String> contactSchedule_selection;
+	/**
+	 * Label for inserting contacts' appointment schedule report data into
+	 */
     @FXML
     private Label contactSchedule_Results_label;
+	/**
+	 * Label for inserting the number of appointments per location report data into
+	 */
     @FXML
     private Label appPerLocation_Results_label;
 

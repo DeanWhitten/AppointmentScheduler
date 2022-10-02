@@ -1,6 +1,7 @@
 package deamwhitten.appointmentscheduler.Controller;
 
 import deamwhitten.appointmentscheduler.Utils.Collections.*;
+import deamwhitten.appointmentscheduler.Utils.CurrentSession_properties;
 import deamwhitten.appointmentscheduler.Utils.DataBase_Access.Appointments_DA;
 import deamwhitten.appointmentscheduler.Utils.TimeOverlap_Error_Handler;
 import deamwhitten.appointmentscheduler.Utils.Window_Handler;
@@ -18,30 +19,72 @@ import java.util.ResourceBundle;
  * Add appointment controller.
  */
 public class Add_Appointment_Controller implements Initializable {
+    /**
+     * Text field for the appointment id
+     */
     @FXML
     private TextField appID_input;
+    /**
+     * The Combo box for the customer selection error
+     */
     @FXML
     private ComboBox<String> customer_selection;
+    /**
+     * ComboBox for selecting contact for appointment
+     */
     @FXML
     private ComboBox<String> contact_selection;
+    /**
+     * ComboBox for selecting appointment type
+     */
     @FXML
     private ComboBox<String> type_selection;
+    /**
+     * Test field for appointment title input
+     */
     @FXML
     private TextField title_input;
+    /**
+     * Text area for writing appointment description
+     */
     @FXML
     private TextArea description_input;
+    /**
+     * ComboBox for selecting a country
+     */
     @FXML
     private ComboBox<String> country_selection;
+    /**
+     * ComboBox for selecting a division
+     */
     @FXML
     private ComboBox<String> division_selection;
+    /**
+     * Date picker for selecting appointment date
+     */
     @FXML
     private DatePicker date_selection;
+    /**
+     * Combobox for selecting appointment start time
+     */
     @FXML
     private ComboBox<LocalTime> start_selection;
+    /**
+     * Combobox for selecting appointment end time
+     */
     @FXML
     private ComboBox<LocalTime> end_selection;
+    /**
+     * The error text label
+     */
     @FXML
-    private Label error_label;
+    public static Label error_label;
+    /**
+     * The user info text label
+     */
+    @FXML
+    private Label userInfo_label;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -51,6 +94,8 @@ public class Add_Appointment_Controller implements Initializable {
             customer_selection.getItems().addAll(Customers_Collections.getAllCustomersNames());
             type_selection.getItems().addAll(Appointments_Collections.getAllAppointmentTypeOptions());
             contact_selection.getItems().addAll(Contacts_Collections.getAllContactNames());
+            userInfo_label.setText("Current User: " + CurrentSession_properties.getUserName() +
+                    "\t User ID: " + CurrentSession_properties.getUserID());
             country_selection.getItems().addAll(Counties_Collections.getAllCountiesNames());
 
             LocalDate date = LocalDate.now();

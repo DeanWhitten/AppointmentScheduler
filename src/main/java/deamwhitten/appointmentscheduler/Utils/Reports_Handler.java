@@ -8,6 +8,7 @@ import javafx.collections.ObservableMap;
 
 import java.time.Month;
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * The Reports handler.
@@ -57,39 +58,36 @@ public abstract class Reports_Handler {
 
 	/**
 	 * Gets contact schedule by contact id report.
+	 * lambda to look through all the appointments and print a line of data for each appointment
+	 * encountered that is scheduled for a selected contact
 	 *
 	 * @param contactSelected the contact selected
 	 * @return a formatted string of the report results
 	 */
 	public static String getContactScheduleByContactID_Report(String contactSelected) {
-		String reportText = "";
-		Contact contact =
-				Contacts_Collections.getAllContacts().get(Contacts_Collections.getContactIdByName(contactSelected)-1);
+		AtomicReference<String> reportText = new AtomicReference<>("");
+		Contact contact = Contacts_Collections.getAllContacts().get(Contacts_Collections.getContactIdByName(contactSelected)-1);
 		String contactName = contact.getName();
 
-		ObservableList<Appointment> appsOfContact = FXCollections.observableArrayList();
-		for(Appointment app: Appointments_Collections.getAllAppointments()){
-			if(app.getContactId() == contact.getId()){
-				 appsOfContact.add(app);
-			}
-		}
+		reportText.set(reportText + "Customer ID: " + contact.getId() + "\t\t Contact Name: " + contactName + "\t" + "\t" + "Email: " + contact.getEmail() + "\n\n");
+		reportText.set(reportText + "appointment ID\t/\ttitle\t/\ttype and description\t/\tstart date and time\t/\tend date and time\t/\tcustomer ID\n");
+		reportText.set(reportText + "__________________________________________________________________________________________________________________________________\n");
 
-		reportText =
-				reportText + "Customer ID: " + contact.getId() + "\t\t Contact Name: " + contactName + "\t" +
-				"\t" + "Email: " + contact.getEmail() + "\n\n";
-		reportText = reportText + "appointment ID\t/\ttitle\t/\ttype and description\t/\tstart date and time\t/\tend date and time\t/\tcustomer ID\n";
-		reportText = reportText + "__________________________________________________________________________________________________________________________________\n";
-		for(Appointment app : appsOfContact){
-			reportText =
-					reportText + app.getId() + "\t / \t"+
-							app.getTitle() + "\t / \t"+
-							app.getType() + "\t / \t"+
-							app.getDescription() + "\t / \t"+
-							app.getStart() + "\t / \t"+
-							app.getEnd() + "\t / \t"+
-							app.getCustomerId() + "\n";
-		}
-		return  reportText;
+		//lambda to look through all the appointments and print a line of data for each appointment encountered that is
+		//scheduled for a selected contact
+		Appointments_Collections.getAllAppointments().forEach(app ->{
+			if(app.getContactId() == contact.getId()){
+				reportText.set(reportText.get() + app.getId() + "\t / \t" +
+						app.getTitle() + "\t / \t" +
+						app.getType() + "\t / \t" +
+						app.getDescription() + "\t / \t" +
+						app.getStart() + "\t / \t" +
+						app.getEnd() + "\t / \t" +
+						app.getCustomerId() + "\n");
+			}
+		});
+
+		return reportText.get();
 	}
 
 

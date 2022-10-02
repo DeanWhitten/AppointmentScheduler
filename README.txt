@@ -7,8 +7,8 @@ logged.
 ---------------------------------------------------------------------------------------------------------------------
 author:                                             Dean Whitten
 contact information:                                dwhitt8@my.wgu.edu
-student application version:                        V1.0
-date:                                               September 25th, 2022
+student application version:                        V2.0
+date:                                               October 1st, 2022
 ---------------------------------------------------------------------------------------------------------------------
 IDE:                                                IntelliJ IDEA 2022.1.3 (Ultimate Edition)
 full JDK of version used:                           Oracle OpenJDK version 17.0.2
@@ -43,5 +43,11 @@ Locations of lambdas:
 3) getThisWeekAppointments()
     in src/main/java/deamwhitten/appointmentscheduler/Utils/Collections/Appointments_Collections.java
     ->   used to efficiently filter appointments by week
+
+    --NEW LAMBDA that's different from the others for Attempt 2---
+4)  getContactScheduleByContactID_Report()
+    in src/main/java/deamwhitten/appointmentscheduler/Utils/Reports_Handler.java
+    ->  lambda to look through all the appointments and print a line of data for each appointment encountered that is
+    scheduled for a selected contact
 ---------------------------------------------------------------------------------------------------------------------
 Location of JavaDoc index:                                JavaDocs/index.html

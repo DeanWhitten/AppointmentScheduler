@@ -19,20 +19,44 @@ import java.util.ResourceBundle;
  * Add customer controller.
  */
 public class Add_Customer_Controller implements Initializable {
+    /**
+     * Text field for customer ID
+     */
     @FXML
     private TextField customerID_input;
+    /**
+     * Text field for customer's name
+     */
     @FXML
     private TextField  name_input;
+    /**
+     * Text field for customer's phone number
+     */
     @FXML
     private TextField phoneNumber_input;
+    /**
+     * Text field for customer's address
+     */
     @FXML
     private TextField address_input;
+    /**
+     * Text field for customer's postal code
+     */
     @FXML
     private TextField postalCode_input;
+    /**
+     * ComboBox for selecting a country
+     */
     @FXML
     private ComboBox<String> country_selection;
+    /**
+     * ComboBox for selecting a division
+     */
     @FXML
     private ComboBox<String> division_selection;
+    /**
+     * Label for displaying error messages
+     */
     @FXML
     private Label error_label;
 

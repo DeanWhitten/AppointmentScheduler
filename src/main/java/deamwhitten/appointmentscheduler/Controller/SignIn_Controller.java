@@ -16,6 +16,7 @@ import javafx.scene.control.*;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -127,7 +128,7 @@ public class SignIn_Controller implements Initializable {
         signIn_btn.setText(user_language.getString("SignIn"));
         String locationText = user_language.getString("Location");
         String languageText = user_language.getString("Language");
-        location_label.setText(locationText + " " + Locale.getDefault().getDisplayCountry() +"\t" +
+        location_label.setText(locationText + " " + Calendar.getInstance().getTimeZone().getID() +"\t" +
                 "\t"+ languageText + " " + Locale.getDefault().getDisplayLanguage());
     }
 
