@@ -1,6 +1,6 @@
 package deamwhitten.appointmentscheduler.Utils.Collections;
 
-import deamwhitten.appointmentscheduler.Utils.DataBase_Access.Customers_DA;
+import deamwhitten.appointmentscheduler.Utils.Database_Access.Customers_DA;
 import deamwhitten.appointmentscheduler.Model.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -38,13 +38,13 @@ public abstract class Customers_Collections {
     }
 
 	/**
-	 * Gets customer id by name.
-	 *
-	 * @param selectedCustomerName the selected customer name
-	 * @return the customer id by name
-	 */
+     * Gets customer id by name.
+     *
+     * @param selectedCustomerName the selected customer name
+     * @return the customer id by name
+     */
 	public static int getCustomerIDByName(String selectedCustomerName) {
-        getAllCustomers();
+        getAllCustomers().clear();
         int customerID = 0;
         for (Customer customer: getAllCustomers()){
             if(customer.getName().equals(selectedCustomerName)){
@@ -52,5 +52,24 @@ public abstract class Customers_Collections {
             }
         }
         return customerID;
+    }
+
+    /**
+     *
+     * NEWLY ADDED JAN 2023
+     *
+     * **/
+
+
+    public static ObservableList<Customer> searchCustomers(String text) {
+        getAllCustomers().clear();
+        ObservableList<Customer> allCustomersOfName = FXCollections.observableArrayList();
+
+        for (Customer customer: getAllCustomers()){
+            if(customer.getName().toLowerCase().contains(text.toLowerCase())){
+                allCustomersOfName.add(customer);
+            }
+        }
+        return allCustomersOfName;
     }
 }

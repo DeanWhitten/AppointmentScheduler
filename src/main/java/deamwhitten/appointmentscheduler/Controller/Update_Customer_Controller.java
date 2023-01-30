@@ -3,7 +3,7 @@ package deamwhitten.appointmentscheduler.Controller;
 import deamwhitten.appointmentscheduler.Model.Customer;
 import deamwhitten.appointmentscheduler.Utils.Collections.Counties_Collections;
 import deamwhitten.appointmentscheduler.Utils.Collections.Divisions_Collections;
-import deamwhitten.appointmentscheduler.Utils.DataBase_Access.Customers_DA;
+import deamwhitten.appointmentscheduler.Utils.Database_Access.Customers_DA;
 import deamwhitten.appointmentscheduler.Utils.Window_Handler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

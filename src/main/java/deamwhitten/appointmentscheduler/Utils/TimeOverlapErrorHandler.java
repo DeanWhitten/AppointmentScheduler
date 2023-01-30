@@ -11,7 +11,7 @@ import static deamwhitten.appointmentscheduler.Utils.Collections.Appointments_Co
 /**
  * The type Time overlap error handler.
  */
-public abstract class TimeOverlap_Error_Handler {
+public class TimeOverlapErrorHandler {
 
 
 	/**

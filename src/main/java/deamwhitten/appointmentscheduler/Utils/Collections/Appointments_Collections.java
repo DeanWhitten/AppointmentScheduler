@@ -1,8 +1,9 @@
 package deamwhitten.appointmentscheduler.Utils.Collections;
 
 import deamwhitten.appointmentscheduler.Model.Appointment;
+import deamwhitten.appointmentscheduler.Model.Contact;
 import deamwhitten.appointmentscheduler.Model.Customer;
-import deamwhitten.appointmentscheduler.Utils.DataBase_Access.Appointments_DA;
+import deamwhitten.appointmentscheduler.Utils.Database_Access.Appointments_DA;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -98,4 +99,55 @@ public abstract class Appointments_Collections {
         return FXCollections.observableArrayList("Planning Session", "Conference Call", "De-Briefing", "Miscellaneous", "Project Review", "Presentation", "Scrum", "Team Meeting");
     }
 
+
+
+    /**
+     *
+     * NEWLY ADDED JAN 2023
+     *
+     * **/
+
+    public static ObservableList<Appointment> searchAppointments(int id){
+        ObservableList<Appointment> foundApps = FXCollections.observableArrayList();
+
+        for(Appointment A_App: getAllAppointments()){
+            //Customers
+            if(A_App.getCustomerId() == id){
+                foundApps.add(A_App);
+            }
+            //Contacts
+            if(A_App.getContactId() == id){
+                foundApps.add(A_App);
+            }
+        }
+        return foundApps;
+    }
+
+    public static ObservableList<Appointment> searchAppointments(String text){
+        ObservableList<Appointment> foundApps = FXCollections.observableArrayList();
+        foundApps.clear();
+
+        for(Appointment A_App: getAllAppointments()){
+            //Customers
+            ObservableList<Customer> customerOFId= FXCollections.observableArrayList();
+            customerOFId.clear();
+            customerOFId.addAll(Customers_Collections.searchCustomers(text));
+            for(Customer c: customerOFId){
+                if(A_App.getCustomerId() == c.getId()){
+                    foundApps.add(A_App);
+                }
+            }
+
+            //Contacts
+            ObservableList<Contact> contactsOfId = FXCollections.observableArrayList();
+            contactsOfId.clear();
+            contactsOfId.addAll(Contacts_Collections.getContactIDListByName(text));
+            for (Contact c : contactsOfId){
+                if(A_App.getContactId() == c.getId()){
+                    foundApps.add(A_App);
+                }
+            }
+        }
+        return foundApps;
+    }
 }

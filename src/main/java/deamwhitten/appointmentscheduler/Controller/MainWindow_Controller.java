@@ -8,14 +8,17 @@ import deamwhitten.appointmentscheduler.Utils.Collections.Contacts_Collections;
 import deamwhitten.appointmentscheduler.Utils.Collections.Customers_Collections;
 import deamwhitten.appointmentscheduler.Utils.Reports_Handler;
 import deamwhitten.appointmentscheduler.Utils.CurrentSession_properties;
-import deamwhitten.appointmentscheduler.Utils.DataBase_Access.Appointments_DA;
-import deamwhitten.appointmentscheduler.Utils.DataBase_Access.Customers_DA;
+import deamwhitten.appointmentscheduler.Utils.Database_Access.Appointments_DA;
+import deamwhitten.appointmentscheduler.Utils.Database_Access.Customers_DA;
 import deamwhitten.appointmentscheduler.Utils.Window_Handler;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 
 import java.io.IOException;
 import java.net.URL;
@@ -433,6 +436,7 @@ public class MainWindow_Controller implements Initializable {
         app_end_col.setCellValueFactory(new PropertyValueFactory<>("end"));
         app_userID_col.setCellValueFactory(new PropertyValueFactory<>("UserId"));
 
+
         //Customers Table
         customer_customerID_col.setCellValueFactory(new PropertyValueFactory<>("id"));
         customer_customerName_col.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -441,8 +445,14 @@ public class MainWindow_Controller implements Initializable {
         customer_postal_col.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
         customer_divisionID_col.setCellValueFactory(new PropertyValueFactory<>("divisionID"));
         try {
-            appointments_table.setItems(getAllAppointments());
-            customers_table.setItems(Customers_Collections.getAllCustomers());
+            if(notSearchingApps ){
+                appointments_table.setItems(getAllAppointments());
+                customers_table.setItems(Customers_Collections.getAllCustomers());
+            }else {
+                appointments_table.setItems(foundAppointments);
+                notSearchingApps = true;
+            }
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -457,4 +467,45 @@ public class MainWindow_Controller implements Initializable {
          customer_delete_msg_label.setOpacity(0);
          customer_error_label.setOpacity(0);
     }
+
+    /**
+     *
+     * NEWLY ADDED JAN 2023
+     *
+     * notes:
+     * need to set a boolean to tell program if searching or not so that it doesn't load everything
+     *
+     * **/
+
+    @FXML
+    private TextField appointmentsSearchBar;
+    private ObservableList<Appointment> foundAppointments = FXCollections.observableArrayList();
+    private static boolean notSearchingApps = true;
+
+
+    @FXML
+    private void onAppointmentSearchBarInput(KeyEvent KeyEvent){
+        resetUI();
+        foundAppointments.clear();
+        try {
+            try {
+                int id = Integer.parseInt(appointmentsSearchBar.getText());
+                foundAppointments.addAll(Appointments_Collections.searchAppointments(id));
+            }catch (Exception e){
+                String name = appointmentsSearchBar.getText();
+                foundAppointments.addAll(Appointments_Collections.searchAppointments(name));
+            }
+            if(foundAppointments.size() == 0){
+                app_error_label.setOpacity(1);
+                app_error_label.setText("No appoint with that name or id");
+            }else {
+                notSearchingApps = false;
+                loadTables();
+            }
+        }catch (Exception e){
+            app_error_label.setOpacity(1);
+            app_error_label.setText("No appoint with that name or id");
+        }
+    }
+
 }

@@ -1,4 +1,4 @@
-package deamwhitten.appointmentscheduler.Utils.DataBase_Access;
+package deamwhitten.appointmentscheduler.Utils.Database_Access;
 
 import deamwhitten.appointmentscheduler.Model.Appointment;
 import deamwhitten.appointmentscheduler.Utils.Collections.Contacts_Collections;

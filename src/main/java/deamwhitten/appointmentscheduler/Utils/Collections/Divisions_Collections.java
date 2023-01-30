@@ -1,6 +1,6 @@
 package deamwhitten.appointmentscheduler.Utils.Collections;
 
-import deamwhitten.appointmentscheduler.Utils.DataBase_Access.Division_DA;
+import deamwhitten.appointmentscheduler.Utils.Database_Access.Division_DA;
 import deamwhitten.appointmentscheduler.Model.Country;
 import deamwhitten.appointmentscheduler.Model.Division;
 import javafx.collections.FXCollections;

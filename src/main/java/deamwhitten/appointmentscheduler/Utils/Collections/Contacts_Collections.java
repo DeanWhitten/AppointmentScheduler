@@ -1,6 +1,6 @@
 package deamwhitten.appointmentscheduler.Utils.Collections;
 
-import deamwhitten.appointmentscheduler.Utils.DataBase_Access.Contact_DA;
+import deamwhitten.appointmentscheduler.Utils.Database_Access.Contact_DA;
 import deamwhitten.appointmentscheduler.Model.Contact;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -52,5 +52,23 @@ public abstract class Contacts_Collections {
             }
         }
         return id;
+    }
+
+    /**
+     *
+     * NEWLY ADDED JAN 2023
+     *
+     * **/
+
+    public static ObservableList<Contact> getContactIDListByName(String text) {
+        getAllContacts().clear();
+        ObservableList<Contact> allContactsOfName = FXCollections.observableArrayList();
+
+        for (Contact c: getAllContacts()){
+            if(c.getName().toLowerCase().contains(text.toLowerCase())){
+                allContactsOfName.add(c);
+            }
+        }
+        return allContactsOfName;
     }
 }

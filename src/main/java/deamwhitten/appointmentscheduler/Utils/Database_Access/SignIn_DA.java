@@ -1,4 +1,4 @@
-package deamwhitten.appointmentscheduler.Utils.DataBase_Access;
+package deamwhitten.appointmentscheduler.Utils.Database_Access;
 import deamwhitten.appointmentscheduler.Model.User;
 import deamwhitten.appointmentscheduler.Utils.CurrentSession_properties;
 import deamwhitten.appointmentscheduler.Utils.JDBC;

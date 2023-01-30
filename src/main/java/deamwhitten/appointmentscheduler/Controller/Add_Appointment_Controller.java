@@ -2,8 +2,8 @@ package deamwhitten.appointmentscheduler.Controller;
 
 import deamwhitten.appointmentscheduler.Utils.Collections.*;
 import deamwhitten.appointmentscheduler.Utils.CurrentSession_properties;
-import deamwhitten.appointmentscheduler.Utils.DataBase_Access.Appointments_DA;
-import deamwhitten.appointmentscheduler.Utils.TimeOverlap_Error_Handler;
+import deamwhitten.appointmentscheduler.Utils.Database_Access.Appointments_DA;
+import deamwhitten.appointmentscheduler.Utils.TimeOverlapErrorHandler;
 import deamwhitten.appointmentscheduler.Utils.Window_Handler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -263,7 +263,7 @@ public class Add_Appointment_Controller implements Initializable {
 
     /**
      * Check for overlap times
-     * assigns needed parameters to variables to be sent to the TimeOverlap_Error_Handler and
+     * assigns needed parameters to variables to be sent to the TimeOverlapErrorHandler and
      * returns true or false based on if there is an overlap in time of already existing
      * appointments for selected customer
      *
@@ -275,7 +275,7 @@ public class Add_Appointment_Controller implements Initializable {
         LocalDate date = date_selection.getValue();
         LocalDateTime start = LocalDateTime.of(date, start_selection.getSelectionModel().getSelectedItem());
         LocalDateTime end = LocalDateTime.of(date, end_selection.getSelectionModel().getSelectedItem());
-        return TimeOverlap_Error_Handler.checkForAppointmentOverlapByCustomer_Add(start, end, Customers_Collections.getCustomerIDByName(customer), error_label);
+        return TimeOverlapErrorHandler.checkForAppointmentOverlapByCustomer_Add(start, end, Customers_Collections.getCustomerIDByName(customer), error_label);
     }
 
     /**
