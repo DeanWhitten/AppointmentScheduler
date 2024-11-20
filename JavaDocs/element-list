@@ -1,7 +1,0 @@
-module:deamwhitten.appointmentscheduler
-deamwhitten.appointmentscheduler
-deamwhitten.appointmentscheduler.Controller
-deamwhitten.appointmentscheduler.Model
-deamwhitten.appointmentscheduler.Utils
-deamwhitten.appointmentscheduler.Utils.Collections
-deamwhitten.appointmentscheduler.Utils.Database_Access
